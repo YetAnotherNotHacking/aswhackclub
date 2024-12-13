@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>How to: Boba Drops!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            height: 100%;
+        }
+        #webgl-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .content-window {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 900px;
+            height: 70%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 
+                0 0 0 4px rgba(255,255,255,0.2),
+                0 30px 60px rgba(0,0,0,0.5);
+            padding: 20px;
+            overflow: auto;
+            color: white;
+            z-index: 10;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        .content-window::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            right: -30px;
+            bottom: -30px;
+            background: radial-gradient(
+                ellipse at center, 
+                rgba(255,255,255,0.2) 0%, 
+                rgba(255,255,255,0) 70%
+            );
+            z-index: -1;
+            border-radius: 50px;
+            pointer-events: none;
+        }
+        .content-window h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.7);
+        }
+        .portal-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, 
+                #000000, #1a0033, #330066, #4d0099, #6600cc,
+                #7700e6, #8800ff, #7700e6, #6600cc, #4d0099,
+                #330066, #1a0033, #000000);
+            background-size: 400% 400%;
+            border-radius: 25px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            animation: portalShimmer 8s linear infinite;
+            box-shadow: 
+                0 0 15px rgba(136, 0, 255, 0.5),
+                0 0 30px rgba(136, 0, 255, 0.3),
+                0 0 45px rgba(136, 0, 255, 0.1);
+        }
+
+        .portal-button:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 20px rgba(136, 0, 255, 0.7),
+                0 0 40px rgba(136, 0, 255, 0.5),
+                0 0 60px rgba(136, 0, 255, 0.3);
+        }
+
+        .portal-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                #ff00ff, #00ffff, #ff00ff, #00ffff);
+            background-size: 400% 400%;
+            z-index: -1;
+            filter: blur(10px);
+            animation: portalShimmer 4s linear infinite;
+            opacity: 0.7;
+            border-radius: 25px;
+        }
+
+        @keyframes portalShimmer {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 400% 50%;
+            }
+        }
+
+        .content-window img {
+            display: block;
+            width: 66.67%;
+            margin: 20px auto;
+            height: auto;
+        }
+
+        .content-window h2 {
+            text-align: center;
+        }
+
+        .code-container {
+            position: relative;
+            background: linear-gradient(145deg, #2d2d2d, #1a1a1a);
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+        }
+
+        .code-container pre {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+            display: flex;
+        }
+
+        .line-numbers {
+            padding: 0 15px;
+            color: rgba(255, 255, 255, 0.3);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            user-select: none;
+            text-align: right;
+            min-width: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .code-content {
+            margin-left: 15px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            flex: 1;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="webgl-container"></div>
+    <div class="content-window">
+        <h1>Boba Drops | ASW</h1>
+        <p>Boba Drops is a YSWS (you ship we ship) activity from Hack Club where you create a very simple static website that uses both css and html.</p>
+        <p>You are going to be filling out a template, here is the exemplar from Landpirate:</p>
+        <img src="images/bobadrops/landpirate_exemplar.png" alt="Boba Drops Exemplar">
+        <p>You are going to be filling out a simple template to be able to make your own page just like this one!</p>
+        <p>You first need to go to YetAnotherNotHacking's (aka landpirate) <a href="https://github.com/YetAnotherNotHacking/aswhackclub">repo</a> with this site. You are going to fork it just like you see in this image, you can name it anything (or litteraly anything if you want to be unfunny)</p>
+        <img src="images/bobadrops/howtofork.png" alt="Boba Drops Fork">
+        <p>If you canot find the fork button, make sure you are in the repo and are logged in to github, you are looking at the top right for the button called "fork".</p>
+        <p>Once you have pressed the fork button, you should make sure that you are in your repository. Do this by clicking on your profile picture in the top right, and then selecting the "Your Repositories" button. You should see the repo you just cloned at the top, if not, search for it, or try forking it again.</p>
+        <p>Now you are in your local version of the code. This is a mirror of the code from the time that you pressed "fork". If changes are made on YetAnotherNotHacking's repo (that happens a lot) you want to press the "Sync Fork" button to avoid causing overlapping edits or other issues.</p>
+        <img src="images/bobadrops/syncfork.png" alt="Boba Drops Sync Fork" style="width: 35%;">
+        <p>Once you are sure that you have all of your local code ready, you are able to start editing your page! The template file that we are using is in template.html, you should open it, press the copy raw button, and then move into the people folder, create a new file with your userername all lowercase with a .html on the end of it and paste in the code.</p>
+        <p>Getting template.html code:</p>
+        <img src="images/bobadrops/whereistemplatehtml.png" alt="Boba Drops Template" style="width: 60%;">
+        <p>Copy Raw Button (its in the top right)</p>
+        <img src="images/bobadrops/copyraw.png" alt="Boba Drops Copy Raw" style="width: 50%;">
+        <p>Going into the people folder:</p>
+        <img src="images/bobadrops/whereispeople.png" alt="Boba Drops People" style="width: 60%;">
+        <p>Creating the new file, you are going into the top right and clicking Add File and then Create new file:</p>
+        <img src="images/bobadrops/createfile.png" alt="Boba Drops Create File" style="width: 60%;">
+        <p>Just paste in the code like normal, command + v or ctrl + v, and now we get to start editing!</p>
+        <p>Now we should look at what all of this geeble goobledy gook is, and what you can change, and why it changes it.</p>
+        <hr>
+        <h1>Page Title:</h1>
+        <h2>Code:</h2>
+        <div class="code-container">
+            <div class="code-header">
+                <span class="logo">Title Section:</span>
+                </div>
+                    <pre>
+                        <code class="code-content">
+&lt;title&gt;USERNAME&lt;/title&gt;
+                    </code>
+                </pre>
+            </div>
+        <h2>Code Preview:</h2>
+        <img src="images/bobadrops/titlerender.png">
+        <h2>What this code does:</h2>
+        <p>Yay- This one is extremely simple. It just is telling the browser what to set the title of the page to. The title is the name that it uses when it appears in your tabs. This is at the top of the script most of the time, if you are interested in making your own new pages, that is the nornal structure.</p>
+        <hr>
+        <h1>Profile Section:</h1>
+        <h2>Code:</h2>
+        <div class="code-container">
+            <div class="code-header">
+                <span class="logo">Profile Section</span>
+                </div>
+                    <pre>
+                        <code class="code-content">
+&lt;div class="profile"&gt;
+    &lt;!-- Replace 'defaultavatar.png' with your avatar if available --&gt;
+    &lt;img src="defaultavatar.png" alt="Profile Picture"&gt;
+    &lt;h2&gt;USERNAME&lt;/h2&gt;
+    &lt;!-- Update this with your favorite programming language --&gt;
+    &lt;p&gt;Favorite Programming Language: &lt;strong&gt;Python&lt;/strong&gt;&lt;/p&gt;
+    &lt;!-- Favorite OS Selection --&gt;
+    &lt;div class="os-options"&gt;
+        &lt;p&gt;Favorite OS:&lt;/p&gt;
+        &lt;!-- Uncomment your preferred OS icon (changing it from linux means your weak - JK)--&gt;
+        &lt;img src="macosx.png" alt="macOS" title="macOS"&gt;
+        &lt;!-- &lt;img src="windows.png" alt="Windows" title="Windows"&gt; --&gt;
+        &lt;!-- &lt;img src="macosx.png" alt="macOS" title="macOS"&gt; --&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                    </code>
+                </pre>
+            </div>
+        <h2>Code:</h2>
+        <img src="images/bobadrops/templaterender.png" alt="Boba Drops Create File" style="width: 60%;">
+        <h2>What this code does:</h2>
+        <p>You are able to see that this is part of the class "profile" meaning that it is taking the styling that is applied in the CSS (code at the top of the file) to apply any styling, colors, or any other things like positioning that you added in the CSS. It is in a div, which is like a container for things in HTML. This div is holding some text, images, and some other elements of the profile section of the template.</p>
+        <p>The <code>img</code> tag is used to add images into the web page. You are able to see that the image we are currently loading in is the template's default avatar. We don't want to use that, so just grab whatever profile picture that you like using, and upload the file with the same name as the html page we are working on (you should do this in a new window if you are editting you code in your current one) and put it in the people folder as well so that it can be loaded in easily. For example, the exemplar is landpirate, he uploaded the landpirate.png and included it in the same place that we are working on here.</p>
+        <p>Inside the <code>h2</code> tags you are able to see "USERNAME" written. You should change that to the username you chose for your HTML file. Preffereably with a funny emoji to go with it!</p>
+        <p>For the favourite programming language element, you are just going to tpye the name of your favorite programming language in into the <code>strong</code> tags. If this is the only project you have worked on related to coding, just choose HTML5 as your favourite programming language.</p>
+        <p>The final element in this section is the "favourite operating system". You are able to see that the code makes use of the comment feature in HTML. Comments are visible in the sourcecode, but the browser wont render them, meaning you are not able to see them when you visit the web page. Comments are creating with <code>< ! --</code> at the beggining of the section you intend to comment, and <code>--></code>  at the end. You want to remove these symbols from the one that you like the most, and keep them on all of there other ones. Only have one uncommented for this to work corrently. Other than that, the images are already set so you do not really have to do anything about that.</p>
+        <p>That's about it for this section with your profile picture! You are able to see how this looks if you follow the tutorial on how to install Live Server to be able to look at the code on your browser. If your images arent working, do not have too much concern because they will work on the server.</p>
+        <hr>
+        <h1>About me:</h1>
+        <h2>Code:</h2>
+        <div class="code-container">
+            <div class="code-header">
+                <span class="logo">Profile Section</span>
+                </div>
+                    <pre>
+                        <code class="code-content">
+&lt;!-- About Me Section --&gt;
+&lt;div class="section"&gt;
+    &lt;h3&gt;About Me&lt;/h3&gt;
+    &lt;p&gt;yao about yourself here&lt;/p&gt;
+&lt;/div&gt;
+                    </code>
+                </pre>
+            </div>
+        <h2>Code preview:</h2>
+        <img src="images/bobadrops/aboutmerender.png">
+        <h2>What this code does:</h2>
+        <p>Horay! Another simple explenation. This is just a really simple element of the page. You are able to see that there is a class for the section, this is using the CSS styling that I talked about earlier to make sure that it is styiling the text how we want it to. It uses the <code>h3</code> tag to make the text a little bigger to make sure that you are able to see the about me just a little bit easier.</p>
+        <p> Then it is just a <code>p</code> tag where you are able to enter some content about yourself. Please be creative and thoughtful about this. Landpirate had an <em>ok</em> about me, but for a really good about me, check out the <a href="../people/xshucks.html"> xshuck's profile</a>. You are looking to try to include a range of your personal interests, maybe a little bit about why you joined hack club, and some things that you do in your freetime. Memes are allowed but keep it appropriate.</p>
+        <hr>
+        <h1>Technologies I know:</h1>
+        <h2>Code:</h2>
+        <div class="code-container">
+            <div class="code-header">
+                <span class="logo">Technologies Section</span>
+                </div>
+                    <pre>
+                    <code class="code-content">
+                        <div class="section">
+&lt;h3&gt;Technologies I Know&lt;/h3&gt;
+&lt;div class="tech-grid"&gt;
+    &lt;img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unrealengine/unrealengine-original.svg" /&gt;
+    &lt;img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/android/android-original.svg" /&gt;  
+&lt;/div&gt;
+                        </div>
+                    </code>
+                </pre>
+            </div>
+        <h2>Code Preview:</h2>
+        <img src="images/bobadrops/techrender.png" style="width: 48%;">
+        <h2>What this code does:</h2>
+        <p>This code has a lot to it. I assume that you have not worked with Unreal Engine and Android, these are the ones I happened to have in my clipboard history when I was making the template. You are going to grab your own icons from <a href="https://devicon.dev/">Devicon</a>.</p>
+        <p>You can just add in more icons like you see here when you have the icons that you have worked with, or if this is the only project that you have worked on, then you are able to take these icons, as they are what you have generally been working with in this club so far:</p>
+        <div class="code-container">
+            <div class="code-header">
+                <span class="logo">Technologies with Boba Drops:</span>
+                </div>
+                    <pre>
+                    <code class="code-content">
+                        <div class="section">
+&lt;img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" /&gt;
+&lt;img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" /&gt;
+&lt;img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/apache/apache-original.svg" /&gt;
+                        </div>
+                    </code>
+                </pre>
+            </div>
+        <p>You should try to expand this aas you learn new things! This is meant to be a really simple portfolio that is being hosted on the web for people to be able to find you! The more you learn, the more you can share, this is how to be cool & popular in the programming world. 💯💯💯</p>
+        <hr>
+        <h1>Projects Section</h1>
+        <h2>Code:</h2>
+        <div class="code-container">
+            <div class="code-header">
+                <span class="logo">Technologies Section</span>
+                </div>
+                    <pre>
+                    <code class="code-content">
+                        <div class="section">
+&lt;!-- Projects Section --&gt;
+&lt;div class="section"&gt;
+    &lt;h3&gt;Projects&lt;/h3&gt;
+    &lt;!-- Example Project 1 --&gt;
+    &lt;div class="project-item"&gt;
+        &lt;h4&gt;Project Title&lt;/h4&gt;
+        &lt;p&gt;Short description of the project. Update the link below.&lt;/p&gt;
+        &lt;a href="#"&gt;Project Link&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                        </div>
+                    </code>
+                </pre>
+            </div>
+        <h2>Code Preview:</h2>
+        <img src="images/bobadrops/projectrender.png">
+        <h2>What this code does:</h2>
+        <p>This code is where you are going to show the projects that you have worked on. This makes this more of a finished portfolio and more of a hub to link to other projects that you might work on using the server!</p>
+        <p>You are able to see that it is in the section, this is the same deal with all of the other ones and this is used for styling. We are going to ignore that one this time. The primary things that you need to know when working with this is that the tags with <code>h2</code> are the tags that you need to put the name of the project in, and the tags with <code>p</code> are the places that you need to put a small description about the project and the technologies that you used in the project. You want to also include a link, the current link is a hashtag, but you are able to put in a link to any external website or webpage. Do not forget the https:// at the beggning of the link or it will not work correctly!</p>
+        <hr>
+        <h1>Github Profile:</h1>
+        <h2>Code:</h2>
+        <div class="code-container">
+            <div class="code-header">
+                <span class="logo">Technologies Section</span>
+                </div>
+                    <pre>
+                    <code class="code-content">
+                        <div class="section">
+&lt;!-- GitHub Profile Section --&gt;
+&lt;div class="section"&gt;
+    &lt;h3&gt;GitHub Profile&lt;/h3&gt;
+    &lt;a href="https://github.com/youhere"&gt;GitHub Profile Link&lt;/a&gt;
+&lt;/div&gt;
+                        </div>
+                    </code>
+                </pre>
+            </div>
+        <h2>Code Preview:</h2>
+        <img src="images/bobadrops/githubrender.png">
+        <h2>What this code does:</h2>
+        <p>The code here is just a simple link and a title. It uses the <code>h3</code> tag for the title to make the elemnt of text bigger, and it uses the <code>a</code> tag to link the text to a link on the internet.</p>
+        <p>You should replace the hashtag on the "Link to your github profile" with your actual link to your github profile.</p>
+        <hr>
+        <p>Omg... your done! 🎉🥳🎉 Congrats! 🎉🥳🎉</p>
+        <p>More information about how to get your boba will be available if you contact your Hack Club supervisor, which is: 28getek_c@aswarsaw.org or contact@silverflag.net</p>
+        
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const codeContainers = document.querySelectorAll(".code-container");
+        codeContainers.forEach(container => {
+            const codeContent = container.querySelector(".code-content").textContent;
+            const lines = codeContent.trim().split("\n");
+            const lineNumbers = container.querySelector(".line-numbers");
+            
+            if (lineNumbers) {
+                lineNumbers.innerHTML = lines
+                    .map((_, i) => `<span>${i + 1}</span>`)
+                    .join('');
+            }
+        });
+    });
+</script>
+
+<script>
+        let scene, camera, renderer, particles, mouseX = 0, mouseY = 0;
+
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x000033);
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 10;
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('webgl-container').appendChild(renderer.domElement);
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 30000;
+            const posArray = new Float32Array(particlesCount * 3);
+            const colorArray = new Float32Array(particlesCount * 3);
+            const sizeArray = new Float32Array(particlesCount);
+            const timeOffsetArray = new Float32Array(particlesCount);
+            for(let i = 0; i < particlesCount; i++) {
+                timeOffsetArray[i] = Math.random() * Math.PI * 2;
+            }
+            particlesGeometry.setAttribute('timeOffset', new THREE.BufferAttribute(timeOffsetArray, 1));
+
+            for(let i = 0; i < particlesCount * 3; i += 3) {
+                posArray[i] = (Math.random() - 0.5) * 500;
+                posArray[i + 1] = (Math.random() - 0.5) * 500;
+                posArray[i + 2] = (Math.random() - 0.5) * 700;
+                const colorType = Math.random();
+                if (colorType < 0.4) {
+                    colorArray[i] = 0.5 + Math.random() * 0.5;
+                    colorArray[i + 1] = 0.7 + Math.random() * 0.3;
+                    colorArray[i + 2] = 1;
+                } else if (colorType < 0.7) {
+                    colorArray[i] = 1;
+                    colorArray[i + 1] = 0.3 + Math.random() * 0.5;
+                    colorArray[i + 2] = 0.2 + Math.random() * 0.3;
+                } else if (colorType < 0.9) {
+                    colorArray[i] = 1;
+                    colorArray[i + 1] = 1;
+                    colorArray[i + 2] = 0.2 + Math.random() * 0.4;
+                } else {
+                    colorArray[i] = 0.9 + Math.random() * 0.1;
+                    colorArray[i + 1] = 0.3 + Math.random() * 0.3;
+                    colorArray[i + 2] = 0.9 + Math.random() * 0.1;
+                }
+                sizeArray[i/3] = 0.05 + Math.random() * 1.2;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+            const particlesMaterial = new THREE.PointsMaterial({
+                vertexColors: true,
+                transparent: true,
+                opacity: 1,
+                size: 0.6,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+
+            particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particles);
+            document.addEventListener('mousemove', onMouseMove, false);
+            animate();
+        }
+
+        function onMouseMove(event) {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            particles.rotation.x += 0.001; 
+            particles.rotation.y += 0.002;
+            const positions = particles.geometry.attributes.position;
+            const colors = particles.geometry.attributes.color;
+            const timeOffsets = particles.geometry.attributes.timeOffset;
+            const time = Date.now() * 0.001;
+            for(let i = 0; i < positions.count; i++) {
+                const timeOffset = timeOffsets.array[i];
+                const hue = (time + timeOffset) * 0.1 % 1;
+                const color = new THREE.Color();
+                color.setHSL(hue, 0.8, 0.5);
+                colors.array[i * 3] = color.r;
+                colors.array[i * 3 + 1] = color.g;
+                colors.array[i * 3 + 2] = color.b;
+            }
+            colors.needsUpdate = true;
+            camera.position.x = mouseX * 0.5;
+            camera.position.y = mouseY * 0.5;
+            renderer.render(scene, camera);
+        }
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        window.addEventListener('resize', onWindowResize);
+        init();
+    </script>
+</body>
+</html>
