@@ -43,6 +43,9 @@
         .profile h2 {
             margin: 0.5rem 0;
         }
+        .gigi { width: 200;
+        height: 200;}
+        
         .section {
             margin-bottom: 2rem;
         }
@@ -117,10 +120,69 @@
         <!-- About Me Section -->
         <div class="section">
             <h3>About Me</h3>
-            <p>Hello, my name is Shux or Alek depending if you know me irl or ig. I like racing F1 Endurance cars and i am learning how to code in python, HTML, and sometime I want to learn the dreaded Java</p>
+            <p>Hi, I’m XShucks (Or Alek)! I’m passionate about motorsports, coding and computer science and love helping others with the basics of coding. Let’s connect and make great things happen!</p>
         </div>
         <!-- Technologies Section -->
         <div class="section">
+            <div class="gigi">
+                <meta charset="UTF-8">
+                <title>Audio Player</title>
+                <style>
+                    .audio-container {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        font-family: Arial, sans-serif;
+                    }
+                    #playButton {
+                        background-color: #4CAF50;
+                        border: none;
+                        color: white;
+                        padding: 10px 20px;
+                        text-align: center;
+                        text-decoration: none;
+                        display: inline-block;
+                        font-size: 16px;
+                        margin: 4px 2px;
+                        cursor: pointer;
+                        border-radius: 4px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="audio-container">
+                    <audio id="myAudio">
+                        <source src="Zoomies.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <button id="playButton">Epic F1 Sfx</button>
+                    <span id="audioStatus">Stopped</span>
+                </div>
+            
+                <script>
+                    const audio = document.getElementById('myAudio');
+                    const playButton = document.getElementById('playButton');
+                    const audioStatus = document.getElementById('audioStatus');
+            
+                    playButton.addEventListener('click', () => {
+                        if (audio.paused) {
+                            audio.play();
+                            audioStatus.textContent = 'Playing';
+                            playButton.textContent = 'Pause';
+                        } else {
+                            audio.pause();
+                            audioStatus.textContent = 'Paused';
+                            playButton.textContent = 'Play';
+                        }
+                    });
+            
+                    audio.addEventListener('ended', () => {
+                        audioStatus.textContent = 'Stopped';
+                        playButton.textContent = 'Play';
+                    });
+                </script>
+            </div>
+        
             <h3>Technologies I Know</h3>
             <div class="tech-grid">
                 <img src="https://simpleicons.org/icons/android.svg" />
@@ -129,7 +191,8 @@
                 <img src="https://simpleicons.org/icons/amd.svg" />
                 <img src="https://simpleicons.org/icons/adobelightroom.svg" />
                 <img src="https://simpleicons.org/icons/html5.svg" />
-                <img src="https://simpleicons.org/icons/f1.svg" />
+                <img src="https://simpleicons.org/icons/samsung.svg" />
+                <img src="https://simpleicons.org/icons/github.svg" />
             </div>
         </div>
         <!-- Projects Section -->
@@ -164,4 +227,4 @@
         </div>
     </div>
 </body>
-</html>fd
+</html>
