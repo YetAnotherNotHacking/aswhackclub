@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hack Club ASW</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            height: 100%;
+        }
+        #webgl-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .content-window {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 900px;
+            height: 70%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 
+                0 0 0 4px rgba(255,255,255,0.2),
+                0 30px 60px rgba(0,0,0,0.5);
+            padding: 20px;
+            overflow: auto;
+            color: white;
+            z-index: 10;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        .content-window::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            right: -30px;
+            bottom: -30px;
+            background: radial-gradient(
+                ellipse at center, 
+                rgba(255,255,255,0.2) 0%, 
+                rgba(255,255,255,0) 70%
+            );
+            z-index: -1;
+            border-radius: 50px;
+            pointer-events: none;
+        }
+        .content-window h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.7);
+        }
+        .portal-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, 
+                #000000, #1a0033, #330066, #4d0099, #6600cc,
+                #7700e6, #8800ff, #7700e6, #6600cc, #4d0099,
+                #330066, #1a0033, #000000);
+            background-size: 400% 400%;
+            border-radius: 25px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            animation: portalShimmer 8s linear infinite;
+            box-shadow: 
+                0 0 15px rgba(136, 0, 255, 0.5),
+                0 0 30px rgba(136, 0, 255, 0.3),
+                0 0 45px rgba(136, 0, 255, 0.1);
+        }
+
+        .portal-button:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 20px rgba(136, 0, 255, 0.7),
+                0 0 40px rgba(136, 0, 255, 0.5),
+                0 0 60px rgba(136, 0, 255, 0.3);
+        }
+
+        .portal-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                #ff00ff, #00ffff, #ff00ff, #00ffff);
+            background-size: 400% 400%;
+            z-index: -1;
+            filter: blur(10px);
+            animation: portalShimmer 4s linear infinite;
+            opacity: 0.7;
+            border-radius: 25px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+        }
+        th {
+            background-color: #6000af;
+            text-align: left;
+        }
+
+        @keyframes portalShimmer {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 400% 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="webgl-container"></div>
+    <div class="content-window">
+        <h1>Basics of the Terminal | ASW Hack Club</h1>
+        <hr>
+        <h2>Introduction</h2>
+        <p>The terminal is a tool that you use a lot if you are programming. MacOS is a <a href="https://en.wikipedia.org/wiki/Unix-like">Unix-like</a> operating system, it is similar to Linux. Since ASW uses macbooks, everything in this guide will be about using the MacOS terminal, which is called <a href="https://en.wikipedia.org/wiki/Z_shell">zsh" or zshell.</a></p>
+        <p>The first thing we are going to is learn aobut how to move around your computer on the terminal. Unix-like systems all have the same commands here, so you should be fine (meaning that you are able to use the same commands across <a href="https://en.wikipedia.org/wiki/Linux">Linux</a>. <a href="https://en.wikipedia.org/wiki/MacOS">MacOS</a>, and <a href="https://en.wikipedia.org/wiki/FreeBSD">FreeBSD</a> and others)</p>
+        <p>If for some reason you don't know how to open the terminal, it is <a href="https://en.wikipedia.org/wiki/ITerm2">iTerm</a> on MacOS and <a href="https://en.wikipedia.org/wiki/Terminal_(macOS)">Terminal</a>. I prefer Terminal as it is lighter. You can also open a terminal in VSCode (if you do not have it installed, look at our guide <a href="installvscode.html">here</a>), in the top of your screen with the options like File and Edit, select Terminal > New Terminal. This will open your zsh terminal on MacOS.</p>
+        <p>I am not sure where to inlcude it, but it is a really useful command, the <strong><code>clear</code></strong> command clears the terminal. Very useful if you have a lot of text and it is overwelming, just returns the terminal into one line at the top of the screen.</p>
+        <hr>
+        <h2>Files.</h2>
+        <p>All of the commands related to making, editting. moving, copying, reading, and deleting files in Linux or other Unix systems.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Command</th>
+                    <th>Function</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><pre><code>ls</code></pre></td>
+                    <td>List the files in the current directory you are in.</td>
+                </tr>
+                <tr>
+                    <td><pre><code>cd *folder*</code></pre></td>
+                    <td>Change directory, with a directory to change to. Directory means a folder.</td>
+                </tr>
+                <tr>
+                    <td><pre><code>mkdir *folder name*</code></pre></td>
+                    <td>Make directory, with the name of the directory to make. Directory means a folder.</td>
+                </tr>
+                <tr>
+                    <td><pre><code>cat</code></pre></td>
+                    <td>A joke from the other commands being head and tail, catting out a file is showing it to you in the terminal.</td>
+                </tr>
+                <tr>
+                    <td><pre><code>head</code></pre></td>
+                    <td>Like mentioned in cat, it will give you the head (the front) of the file, just the first few lines.</td>
+                </tr>
+                <tr>
+                    <td><pre><code>tail</code></pre></td>
+                    <td>Also like mentioned in cat, it will give you the tail (the back) of the file, just the last few lines.</td>
+                </tr>
+                <tr>
+                    <td><pre><code>touch *filename*</code></pre></td>
+                    <td>Creates an empty file with the named supplied.</td>
+                </tr>
+                <tr>
+                    <td><pre><code>rm *filename*</code></pre></td>
+                    <td>Deletes a file. This will not work on folders. "Error: is a directory"</td>
+                </tr>
+                <tr>
+                    <td><pre><code>rm -rf *filename*</code></pre></td>
+                    <td>Deletes a file or folder recursively. This will work on folders and files. Be careful!</td>
+                </tr>
+                <tr>
+                    <td><pre><code>cp *origin* *destination*</code></pre></td>
+                    <td>Copy a file, accepts input file to copy and a place to copy the file into.</td>
+                </tr>
+                <tr>
+                    <td><pre><code>mv *origin* *destination*</code></pre></td>
+                    <td>Moves a file. Takes an input of a file and a place to move it into.</td>
+                </tr>
+                <tr>
+                    <td><pre><code>nano *filename*</code></pre></td>
+                    <td>Nano is the <strong>text editor</strong> a real man uses. More information later.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>That's all of the most important file utlility commands that I think are super important. You will slowly be able to memorize these the more that you work with them.</p>
+        <hr>
+        <h2>Package Managers</h2>
+        <p>All <a href="https://en.wikipedia.org/wiki/Unix">Unix systems</a> usually control the software that they have installed from the terminal through a <a href="https://en.wikipedia.org/wiki/Package_manager">package manager</a>. MacOS uses <a href="https://brew.sh/">homebrew or brew</a> to manage packages in the terminal. Other operating systems like Ubuntu/Debian use <a href="https://en.wikipedia.org/wiki/Snap_(software)">snap</a>, <a href="https://en.wikipedia.org/wiki/APT_(software)">apt</a> and <a href="https://en.wikipedia.org/wiki/Flatpak">flatpak</a>, with <a href="https://en.wikipedia.org/wiki/Arch_Linux">Arch Linux</a> using <a href="https://en.wikipedia.org/wiki/Arch_Linux#Pacman">pacman</a> and more.</p>
+        <p>You can install Brew in your MacOS system with the following command, also available on their <a href="https://brew.sh">official site</a>.</p>
+        <pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
+        <p>You are able to use package managers easily. We will demo using each one with installing the gimp package, <a href="https://www.gimp.org/">GNU Image Manipulation Program</a>.</p>
+        <p>MacOS (brew):</p>
+        <pre><code>brew install gimp</code></pre>
+        <p>Arch Linux (pacman):</p>
+        <pre><code>pacman -S gimp</code></pre>
+        <p>Ubuntu/Debian (apt):</p>
+        <pre><code>apt install gimp</code></pre>
+        <p>Ubuntu/Debian (flatpak):</p>
+        <pre><code>flatpak install flathub org.gimp.GIMP</code></pre>
+        <p>Ubuntu/Debian (snap):</p>
+        <pre><code>snap install gimp</code></pre>
+        <p>You are able to replace gimp with any other package you want to install. This is just a brief overview of package managers.</p>
+        <hr>
+        <h2>Internet</h2>
+        <p>You most likely are going to need to use some of these at some point.</p>
+        <h3>Curl</h3>
+        <p>Curl or cUrl is a tool in the terminal that throws things at you. Just kidding. It is a really useful tool for you to be able to get files off of the internet and acts just like the cat command. For example, Ollama, a popular tool to run large language models locally on your computer has an install script that you can run with cUrl. <code>curl -fsSl https://ollama.com/install.sh | sh</code> will get the file off of the ollama.com and pipe it into shell to make it run as a shell script. This is really useful for installers, that is why I chose that as the example. If you want to learn more about the | or the pipe, it is what we will talk about next after Internet</p>
+        <h3>Wget</h3>
+        <p>WGet is a useful tool to be able to download a file off of a server over the internet. For example, if I want to have a local copy of the silverflag.net main page, I am able to run <code>wget https://silverflag.net</code> to be able to download index.html which will be the default response of the server without anything added to the URL. This command has a large variety of uses.</p>
+        <h3>Ping</h3>
+        <p>Ping ... Pong! Ping is used a lot in technology to make sure that a network or form of communication is operating correctly. For exmaple, if I want to make sure that I have internet or that silverflag.net is operating correctly, I could run <code>ping silverflag.net</code> which will send a ping packet to my website and wait for a response, with information about how long it took to get a response from the server, known as ping time (lower ping time is desirable in a lot of cases, like in gaming). The ping command has a lot of different options to play around with but I won't get into those right now.</p>
+        <h3>Traceroute</h3>
+        <p>Traceroute is a tool to debug networks. It is able to tell you all of the connections that your request over the internet travels through to be able to get you the content. For example, if I am having some issues where I am only able to sometimes connect to silverflag.net, I would <code>traceroute silverflag.net</code> to be able to see if there is an issue where if it is trying to route through a specific broken server that is causing the issue and get more information about how it is connecting to be able to debug it further.</p>
+        <hr>
+        <h2>Text Editting</h2>
+        <p>Text editting is something that you are going to have to do a lot when you are working with a Unix system, because you have to go in and change configuration files, make code or scripts to be able to do things quickly, and a large number of other things. The terminal based text edittor that I would recommend for anyone that is new to the terminal is Nano. It is designed to be easier than competing terminal based text editors because it is able to tell you all of the commands that you might need on the bottom, in the competitors like eMacs and Vim, you need to know all of the keybinds to be able to save and exit the editor, which is difficult even for many experienced terminal users. In nano, when you want to open a file, you wil run the <code>nano *filename*</code> to open the file in nano, if there is any message about not having permissions, about the file being a directory, or any other mistake that you have made, then you should ctrl or control + x to exit. If the error is about permissions, then you could try <code>sudo nano *filename*</code> which uses sudo or "super user do" to open the file with high permission levels. Once you have finished editting your file, you can ctrl or control + s to save the changes, and then ctrl or control + x to exit the exitor.</p>
+        <hr>
+        <h2>Other tips and tricks for the terminal.</h2>
+        <p>Like I mentioned at the top, <code>clear</code> is very useful if you just ran a command and it spat out a lot of output, you are able to clear the terminal to be able to remove the clutter</p>
+        <p>Unix and Unix-like systems support operands in the terminal commands, for example, if I am updating my system on Ubuntu/Debian and I want to run the two commands required, I could issue both to run in one command using double ampersand: <code>&&</code>. The command would looke like <code>sudo apt update && sudo apt upgrade</code>. This will have the system run sudo apt update, wait for the command to finish, and then run the second command which is sudo apt upgrade.</p>
+        <p>Another useful operang on Unix-like systems is the | or the pipe. This is able to bring the output of one command and use it as an input to another command. This is usefull like in the curl example, or catting out a file, getting the output of the cat being the file and telling sh to use it, meaning sh runs it. It just litterally pipes the output into another command.</p>
+        <p>If you want something to run in the background, then you are able to add a single ampersand to the end of the command, like <code>sudo apt update &</code> the output will still be going into the terminal that you are using but it is able to allow you to run other commands while it is running that command. View commands running in background using <code>jobs</code>. If you need to stop on of the running jobs, look at its id, and run <code>sudo kill %number</code> with number being the id of the job.</p>
+        
+       
+
+    <script>
+        let scene, camera, renderer, particles, mouseX = 0, mouseY = 0;
+
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x000033);
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 10;
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('webgl-container').appendChild(renderer.domElement);
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 30000;
+            const posArray = new Float32Array(particlesCount * 3);
+            const colorArray = new Float32Array(particlesCount * 3);
+            const sizeArray = new Float32Array(particlesCount);
+            const timeOffsetArray = new Float32Array(particlesCount);
+            for(let i = 0; i < particlesCount; i++) {
+                timeOffsetArray[i] = Math.random() * Math.PI * 2;
+            }
+            particlesGeometry.setAttribute('timeOffset', new THREE.BufferAttribute(timeOffsetArray, 1));
+
+            for(let i = 0; i < particlesCount * 3; i += 3) {
+                posArray[i] = (Math.random() - 0.5) * 500;
+                posArray[i + 1] = (Math.random() - 0.5) * 500;
+                posArray[i + 2] = (Math.random() - 0.5) * 700;
+                const colorType = Math.random();
+                if (colorType < 0.4) {
+                    colorArray[i] = 0.5 + Math.random() * 0.5;
+                    colorArray[i + 1] = 0.7 + Math.random() * 0.3;
+                    colorArray[i + 2] = 1;
+                } else if (colorType < 0.7) {
+                    colorArray[i] = 1;
+                    colorArray[i + 1] = 0.3 + Math.random() * 0.5;
+                    colorArray[i + 2] = 0.2 + Math.random() * 0.3;
+                } else if (colorType < 0.9) {
+                    colorArray[i] = 1;
+                    colorArray[i + 1] = 1;
+                    colorArray[i + 2] = 0.2 + Math.random() * 0.4;
+                } else {
+                    colorArray[i] = 0.9 + Math.random() * 0.1;
+                    colorArray[i + 1] = 0.3 + Math.random() * 0.3;
+                    colorArray[i + 2] = 0.9 + Math.random() * 0.1;
+                }
+                sizeArray[i/3] = 0.05 + Math.random() * 1.2;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+            const particlesMaterial = new THREE.PointsMaterial({
+                vertexColors: true,
+                transparent: true,
+                opacity: 1,
+                size: 0.6,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+
+            particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particles);
+            document.addEventListener('mousemove', onMouseMove, false);
+            animate();
+        }
+
+        function onMouseMove(event) {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            particles.rotation.x += 0.001; 
+            particles.rotation.y += 0.002;
+            const positions = particles.geometry.attributes.position;
+            const colors = particles.geometry.attributes.color;
+            const timeOffsets = particles.geometry.attributes.timeOffset;
+            const time = Date.now() * 0.001;
+            for(let i = 0; i < positions.count; i++) {
+                const timeOffset = timeOffsets.array[i];
+                const hue = (time + timeOffset) * 0.1 % 1;
+                const color = new THREE.Color();
+                color.setHSL(hue, 0.8, 0.5);
+                colors.array[i * 3] = color.r;
+                colors.array[i * 3 + 1] = color.g;
+                colors.array[i * 3 + 2] = color.b;
+            }
+            colors.needsUpdate = true;
+            camera.position.x = mouseX * 0.5;
+            camera.position.y = mouseY * 0.5;
+            renderer.render(scene, camera);
+        }
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        window.addEventListener('resize', onWindowResize);
+        init();
+    </script>
+</body>
+</html>
