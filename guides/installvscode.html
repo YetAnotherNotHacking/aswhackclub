@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>How to: Installing VSCode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            height: 100%;
+        }
+        #webgl-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .content-window {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 900px;
+            height: 70%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 
+                0 0 0 4px rgba(255,255,255,0.2),
+                0 30px 60px rgba(0,0,0,0.5);
+            padding: 20px;
+            overflow: auto;
+            color: white;
+            z-index: 10;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        .content-window::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            right: -30px;
+            bottom: -30px;
+            background: radial-gradient(
+                ellipse at center, 
+                rgba(255,255,255,0.2) 0%, 
+                rgba(255,255,255,0) 70%
+            );
+            z-index: -1;
+            border-radius: 50px;
+            pointer-events: none;
+        }
+        .content-window h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.7);
+        }
+        .portal-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, 
+                #000000, #1a0033, #330066, #4d0099, #6600cc,
+                #7700e6, #8800ff, #7700e6, #6600cc, #4d0099,
+                #330066, #1a0033, #000000);
+            background-size: 400% 400%;
+            border-radius: 25px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            animation: portalShimmer 8s linear infinite;
+            box-shadow: 
+                0 0 15px rgba(136, 0, 255, 0.5),
+                0 0 30px rgba(136, 0, 255, 0.3),
+                0 0 45px rgba(136, 0, 255, 0.1);
+        }
+
+        .portal-button:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 20px rgba(136, 0, 255, 0.7),
+                0 0 40px rgba(136, 0, 255, 0.5),
+                0 0 60px rgba(136, 0, 255, 0.3);
+        }
+
+        .portal-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                #ff00ff, #00ffff, #ff00ff, #00ffff);
+            background-size: 400% 400%;
+            z-index: -1;
+            filter: blur(10px);
+            animation: portalShimmer 4s linear infinite;
+            opacity: 0.7;
+            border-radius: 25px;
+        }
+
+        @keyframes portalShimmer {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 400% 50%;
+            }
+        }
+
+        .content-window img {
+            display: block;
+            width: 66.67%;
+            margin: 20px auto;
+            height: auto;
+        }
+
+        .content-window h2 {
+            text-align: center;
+        }
+
+        .code-container {
+            position: relative;
+            background: linear-gradient(145deg, #2d2d2d, #1a1a1a);
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+        }
+
+        .code-container pre {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+            display: flex;
+        }
+
+        .line-numbers {
+            padding: 0 15px;
+            color: rgba(255, 255, 255, 0.3);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            user-select: none;
+            text-align: right;
+            min-width: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .code-content {
+            margin-left: 15px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            flex: 1;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="webgl-container"></div>
+    <div class="content-window">
+        <h1>How to Install VSCode | ASW Hack Club</h1>
+        <hr>
+        <h2>Download from the website:</h2>
+        <p>First, you are going to download the zip file containing the application from the <a href="https://code.visualstudio.com/""> official website.</a></p>
+        <img src="images/installvscode/downloadbutton.png">
+        <p>As you see in the image, you are going to click the download for *platform* button and it will start downloading something. Just click save.</p>
+        <img src="images/installvscode/savethefile.png">
+        <p>Once you have the file downloaded, you are going to click the "Open in Finder" button in the downloads manager of your browser, like seen in this iamge:</p>
+        <img src="images/installvscode/openinfiles.png">
+        <p>Once you are in your file explorer with the file, drag it onto your desktop. Once it is on your desktop, you are going to right click on it, and go Open with > Archive Utility</p>
+        <img src="images/installvscode/openwitharchive.png">
+        <p>This will dump the file out on your desktop. Select your desktop to make sure that it says "Finder" at the top left of your screen. Click on "Go" > "Applications" to open your appilcations folder.</p>
+        <img src="images/installvscode/openapplicationsfolder.png">
+        <p>With your applications folder open, you are going to drag in the VSCode app into your applications folder. Just drag it in, nothing else.</p>
+        <img src="images/installvscode/draginapp.png">
+        <p>After you have dragged it into your applications folder, you should be able to press command + space to open Spotlight, and then type in visual studio and see Visual Studio Code. Open it.</p>
+        <img src="images/installvscode/openit.png">
+        <p>You will now have Visual Studio Code! You should be able to just simply go through the startup, and if it asks you about language extensions, install the Python langauge extension, and you should be good to go.</p>
+        <p>If you want to do anything else, you could set up for VS code with an installation of Live Server so that you are able to preview your code. A video detailing how to do that can be seen here: <a href="https://www.youtube.com/watch?v=_wue59ldqMg">link</a></p>
+
+
+       
+        
+
+
+
+
+
+<script>
+        let scene, camera, renderer, particles, mouseX = 0, mouseY = 0;
+
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x000033);
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 10;
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('webgl-container').appendChild(renderer.domElement);
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 30000;
+            const posArray = new Float32Array(particlesCount * 3);
+            const colorArray = new Float32Array(particlesCount * 3);
+            const sizeArray = new Float32Array(particlesCount);
+            const timeOffsetArray = new Float32Array(particlesCount);
+            for(let i = 0; i < particlesCount; i++) {
+                timeOffsetArray[i] = Math.random() * Math.PI * 2;
+            }
+            particlesGeometry.setAttribute('timeOffset', new THREE.BufferAttribute(timeOffsetArray, 1));
+
+            for(let i = 0; i < particlesCount * 3; i += 3) {
+                posArray[i] = (Math.random() - 0.5) * 500;
+                posArray[i + 1] = (Math.random() - 0.5) * 500;
+                posArray[i + 2] = (Math.random() - 0.5) * 700;
+                const colorType = Math.random();
+                if (colorType < 0.4) {
+                    colorArray[i] = 0.5 + Math.random() * 0.5;
+                    colorArray[i + 1] = 0.7 + Math.random() * 0.3;
+                    colorArray[i + 2] = 1;
+                } else if (colorType < 0.7) {
+                    colorArray[i] = 1;
+                    colorArray[i + 1] = 0.3 + Math.random() * 0.5;
+                    colorArray[i + 2] = 0.2 + Math.random() * 0.3;
+                } else if (colorType < 0.9) {
+                    colorArray[i] = 1;
+                    colorArray[i + 1] = 1;
+                    colorArray[i + 2] = 0.2 + Math.random() * 0.4;
+                } else {
+                    colorArray[i] = 0.9 + Math.random() * 0.1;
+                    colorArray[i + 1] = 0.3 + Math.random() * 0.3;
+                    colorArray[i + 2] = 0.9 + Math.random() * 0.1;
+                }
+                sizeArray[i/3] = 0.05 + Math.random() * 1.2;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+            const particlesMaterial = new THREE.PointsMaterial({
+                vertexColors: true,
+                transparent: true,
+                opacity: 1,
+                size: 0.6,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+
+            particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particles);
+            document.addEventListener('mousemove', onMouseMove, false);
+            animate();
+        }
+
+        function onMouseMove(event) {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            particles.rotation.x += 0.001; 
+            particles.rotation.y += 0.002;
+            const positions = particles.geometry.attributes.position;
+            const colors = particles.geometry.attributes.color;
+            const timeOffsets = particles.geometry.attributes.timeOffset;
+            const time = Date.now() * 0.001;
+            for(let i = 0; i < positions.count; i++) {
+                const timeOffset = timeOffsets.array[i];
+                const hue = (time + timeOffset) * 0.1 % 1;
+                const color = new THREE.Color();
+                color.setHSL(hue, 0.8, 0.5);
+                colors.array[i * 3] = color.r;
+                colors.array[i * 3 + 1] = color.g;
+                colors.array[i * 3 + 2] = color.b;
+            }
+            colors.needsUpdate = true;
+            camera.position.x = mouseX * 0.5;
+            camera.position.y = mouseY * 0.5;
+            renderer.render(scene, camera);
+        }
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        window.addEventListener('resize', onWindowResize);
+        init();
+    </script>
+</body>
+</html>
