@@ -18,6 +18,15 @@
             height: 100%;
             z-index: -1;
         }
+        code {
+            display: inline-block;
+            background-color: #000000;
+            color: #bababa;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.9em;
+            }
         a:link {
             color: white;
         }
@@ -139,15 +148,112 @@
 <body>
     <div id="webgl-container"></div>
     <div class="content-window">
-    <h1>Bash Scripting | ASW Hack Club</h1>
-    <h2>Intro:</h2>
-    <p>Bash scripting is extremely useful for when you have something in the terminal that you need to do repeatedly and would take a while for you to do yourself or it is something that you do over and over again you can't repeat every time.</p>
-    <p>Bash scripts run commands that are within them, if you want some more information about bash commands you can read <a href="basicsoftheterminal.html">intro to terminal.</a></p>
-    <p>It takes a lot to write complex bash scripts as bash is such a huge set of things. We will supply a copy of Advanced Bash Scripting Guide by Mendel Cooper for its amazing quality and detail. If you need something more simple, we will work on something here and soon more simple alternatives to the Mendel's book will be suplied here</p>
+    <h1>How to use Git | ASW Hack Club</h1>
     <hr>
-    <h2>PDF Resource:</h2>
-    <p>Here is the <a href="content/advancedbashscriptingguidemendelcooper.pdf">link</a></p>
-    <p>If you have a recommendation on a book or resource to add here, please contact the maintainer of this site on contact@silverflag.net or on 28getek_c@aswarsaw.org</p>
+    <p>This guide will be a simple guide on how to use git to collaborate and will lack any detailed information on how Git functions. If you are interested in how it works, you are able to look a tthis nice guide with images <a href="https://dev.to/nopenoshishi/understanding-git-through-images-4an1">here</a>.</p>
+    <hr>
+    <h2>Intro:</h2>
+    <p>Git is a tool for coding and collaboration, and learning it will make managing your projects and working on bigger projects with others easier. Whether you're building a website or collaborating on a Hack Club project, this guide will walk you through the essentials of using Git.</p>
+    <h2>What is Git?</h2>
+    <p>Git is a version management and collaboration tool to make it easier for people to be able to work on programming projects together. You are able to make copies of a repository with forks, add changes with commits, and open pulls requests to be merged after you finish making your projects. This will go over the basics on what you need to do in your terminal to be able to use Git effectively.</p>
+    <hr>
+    <h2>Installation & Configuration:</h2>
+    <p>To be able to use Git on your computer, you are going to need to do the following:</p>
+    <h3>Install Git</h3>
+    <p>Download git from the official page at <a href="https://git-scm.com">git-scm.com</a> and follow the installtion instructions for your operating system.</p>
+    <h3>Configuring Git</h3>
+    <p>For git to work, you will need a git email. If you are wanting to use your Github, this process is largely the same. But you will need to use secure shell (more commonly known as SSH) with a id_rsa key authentication. You don't have to know what that means, you can just follow this guide: <a href="https://docs.github.com/en/enterprise-cloud@latest/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">Adding a new SSH key to your GitHub account</a>. That assumes that you already have an SSH key generated. I will assume that you dont, look here for a guide on how to generate one: <a href="https://docs.github.com/en/enterprise-cloud@latest/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">Generating a new SSH key and adding it to the ssh-agent</a>.</p>
+    <p>Once you have your credentials or git email ready, configure git on your system by running:</p>
+    <code>
+<pre>git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"</pre>
+    </code>
+    <hr>
+    <h2>Making a git repo:</h2>
+    <p>A repo (repositorys like the place that the files will be. You can sort of think of it like a folder for a project that you are working on.</p>
+    <h3>Making a Git repo</h3>
+    <p>You will need to have a repo to be able to work on your project with git. You should make one on GitHub so that you are able to work on it in your browser as well.</p>
+    <h3>Initializing Git</h3>
+    <p>Git works by looking at the .git folder for information about changes to files and things like .gitignores for secrets like database credentials that you do not want to be shared. It is where all of the coniguration files and important files for Git to work life. You will notice it is a dot-file (rather dot-directory) meaning that it will not show up normally in Finder. If you for some reason ever want to be able to see it in Finder, use cmd + shift + period to show all files including the hidden ones.</p>
+    <p>The actual command that you are going to be running to have Git generate the configuration folder is:</p>
+    <code>    
+<pre>git init</pre>
+    </code>
+    <p>Like I alreayd mentioned, this command will just be generating the base files for git to work in the folder/directory that your terminal is currently in.</p>
+    <hr>
+    <h2>Adding & Commiting</h2>
+    <p>By default, nothing is included in your .git folder as code you are working on. If you want to include something, please look at the commands below.</p>
+    <h3>Adding Changes</h3>
+    <p>You need to tell git what the changes are that you want to add to the repo. You can do so for the curent folder that you are in with the following command:</p>
+    <code>
+<pre>git add .</pre>
+    </code>
+    <p>You are able to replace the . with a folder if you are not in the folder thay your code is in. It is better to be in the same folder. You have to be in the same folder as the .git folder you made with <code>git init</code></p>
+    <h3>Commiting the changes</h3>
+    <p>To actually commit the changes into the repo after adding them to the commit, you need to run the following command:</p>
+    <code>
+<pre>git commit -m "Your commit message here"</pre>
+    </code>
+    <p>The commit message should be a very simple message about what you are adding with your changes. It is required, and is defined with the <code>-m</code> flag on the command.</p>
+    <h2>Connecting to a Repo over the Internet</h2>
+    <p>If you are working on a repository over the internet (e.g. on GitHub> then you will have to set a remote origin. This is where git will give your commits to after you commit changes. You need this configured before running git commit -m "whatever".</p>
+    <h3>Creating a GitHub repository</h3>
+    <p>You are first going to need to login to github, click on your profile picture in the top right, and then go down into My Repositories, then you are going to look at the blue New button and click it. You will then give it a name relevant to the project that you are working on.</p>
+    <p>Once your repository is made, you are going to see a message that there are not any files in the repo and then a link ending in .git to be able to commit to it. Copy that somewhere so you are able to use it in this command:</p>
+    <code>
+<pre>git remote add origin https://thelinkyoujustcopied.git</pre>
+    </code>
+    <p>This just tells Git to use the repo that you just made for commiting your changes.</p>
+    <h3>Pushing your changes</h3>
+    <p>Once you have set up git, made a commit, and set the remote origin, you are going to push the changes. Pushing the changes will push all of the commits that you have not pushed yet into the remote repository, All it's doing is just uploading the changes.</p>
+    <p>You push with the following command:</p>
+    <code>
+<pre>git push -u origin main</pre>
+    </code>
+    <p>This tells git to use origin which you defined earlier with the .git link and push to the main branch.</p>
+    <hr>
+    <h2>Adding more changes.</h2>
+    <p>If you work on your code more, you are able to update the code but commiting and pushing the changes again. If you want more information about how that looks, you are able to read here.</p>
+    <h3>Stage changes</h3>
+    <p>Mark files that you have changed to be added into your next commit. This is done with the same command that you used before but you are telling in the files that you have changed. You can also just use a . if you are lazy but there is no reason to upload all of the code if you for example fixed a small typo or something.</p>
+    <code>
+<pre>git add</pre>
+    </code>
+    <p>After you stage the new changes, you can push again by just running:</p>
+    <code>
+<pre>git push</pre>
+    </code>
+    <hr>
+    <h2>Collaboration</h2>
+    <p>Like I mentioned at the top of this page, Git is meant to make it easy for you to be able to see the version history and changes, as well as colaborate on things. I will go into more detail here about how you are able to take full advantage of Git's ability to collaborate with others.</p>
+    <h3>Cloning a Repo</h3>
+    <p>You are able to clone another persons repo, which will download a copy of the repo onto your computer for you to be able to make changes to, and then you are able to commit the changes you make assuming that you have collabotor permissions on the repository. You should also notice that this URL also uses the .git extension. Make sure that it is present. Just add it to the end of the normal repo url, for example this site is on github.com/yetanothernothacking/aswhackclub and the git url would but github.com/yetanothernothacking/aswhackclub.git</p>
+    <code>
+<pre>git clone https://github.com/their-username/their-repo.git</pre>
+    </code>
+    <h3>Syncing Changes</h3>
+    <p>Before you are doing any work on a repository, make sure that you have the latest version of the code. You are able to do that by running the command:</p>
+    <code>
+<pre>git pull origin main</pre>
+    </code>
+    <h3>Pull Requests.</h3>
+    <p>If you were part of the Hack Club when we were doing Boba Drops, you will know that you have to make a pr (short for pull request) to get your code added. This is the same thing when you are working on another persons repository. You should open one so that the owner of the repository is able to look at the changes that you make, review and approve them, and then merge your changes into the main codebase to be added.</p>
+    <p>You should open a pull request in the Github web menu. If you want more information about that, you should see this article on <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request">Creating a Pull Request on GitHub</a></p>\
+    <h2>Other Tips & Tricks</h2>
+    <p>These are just little fun ones that might be able to help you at some point and make you look like a real pro of you know how to use them.</p>
+    <h3>Checking your status</h3>
+    <p>To check the status of what has changed or been staged as a change, you can run:</p>
+    <code>
+<pre>git status</pre>
+    </code>
+    <h3>Undoing Mistakes</h3>
+    <p>Some parents sure wish they had this one. If you did something that you did not intend to do, you are able to restore the files to the previous version using this command:</p>
+    <code>
+<pre>git restore [filename]</pre>
+    </code>
+    <p>*git restore is not recommended to operate while intoxicated (or without some general caution.) You cannot unrestore!!!</p>
+    <h3>Syncing your Fork</h3>
+    <p>When you make a fork, GitHub is making a copy of a repo at the time you forked it on your account so that you are able to make changes and be treated as the owner of your fork. This means that if they make changes on the thing that you forked it from, they are not going to occur in your fork. If you want the changes that are made to be apllied to your fork, you are able to manually update it by using the Sync Fork button on the GitHub web menu.</p>
     <script>
         let scene, camera, renderer, particles, mouseX = 0, mouseY = 0;
 
