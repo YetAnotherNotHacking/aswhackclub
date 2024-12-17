@@ -249,6 +249,18 @@
         <h2>Text Editting</h2>
         <p>Text editting is something that you are going to have to do a lot when you are working with a Unix system, because you have to go in and change configuration files, make code or scripts to be able to do things quickly, and a large number of other things. The terminal based text edittor that I would recommend for anyone that is new to the terminal is Nano. It is designed to be easier than competing terminal based text editors because it is able to tell you all of the commands that you might need on the bottom, in the competitors like eMacs and Vim, you need to know all of the keybinds to be able to save and exit the editor, which is difficult even for many experienced terminal users. In nano, when you want to open a file, you wil run the <code>nano *filename*</code> to open the file in nano, if there is any message about not having permissions, about the file being a directory, or any other mistake that you have made, then you should ctrl or control + x to exit. If the error is about permissions, then you could try <code>sudo nano *filename*</code> which uses sudo or "super user do" to open the file with high permission levels. Once you have finished editting your file, you can ctrl or control + s to save the changes, and then ctrl or control + x to exit the exitor.</p>
         <hr>
+        <h2>Executing Code</h2>
+        <p>When you are working in the terminal and you want to run a program, you are going to have to know the command to do so. We wont get into running a web page because that involves setting up an HTTP server like Apache2 or NGINX but I will go into detail about how you are able to mark bash scripts to allow execution of them and how to run a python file.</p>
+        <p>Python is really simple, you are just telling the python interpreter to run on a script. You do this like the following:</p>
+        <code>python3 script.py</code>
+        <p>For other code like bash scripts you are going to need to mark it as executable first so that you are able to run it.</p>
+        <p>There is an easier and a harder way to do this. I will show you the easier and then the harder:</p>
+        <code>chmod +x file.sh</code>
+        <p>Or, the harder one:</p>
+        <code>chmod 755 file.sh</code>
+        <p>To understand this better, look at this image pulled from Google.</p>
+        <img src="https://miro.medium.com/v2/resize:fit:660/0*5FgkfJtRbgCQIJuk.png">
+        <hr>
         <h2>Other tips and tricks for the terminal.</h2>
         <p>Like I mentioned at the top, <code>clear</code> is very useful if you just ran a command and it spat out a lot of output, you are able to clear the terminal to be able to remove the clutter</p>
         <p>Unix and Unix-like systems support operands in the terminal commands, for example, if I am updating my system on Ubuntu/Debian and I want to run the two commands required, I could issue both to run in one command using double ampersand: <code>&&</code>. The command would looke like <code>sudo apt update && sudo apt upgrade</code>. This will have the system run sudo apt update, wait for the command to finish, and then run the second command which is sudo apt upgrade.</p>
