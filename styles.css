@@ -17,6 +17,15 @@ a:visited {
     height: 100%;
     z-index: -1;
 }
+code {
+    display: inline-block;
+    background-color: #000000;
+    color: #bababa;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.9em;
+}
 .content-window {
     position: absolute;
     top: 50%;
