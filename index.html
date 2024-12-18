@@ -5,6 +5,8 @@
     <title>Hack Club ASW</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <script src="background.js" defer></script>
+    <script src="searchfunc.js" defer></script>
 </head>
 <body>
 	<nav class="navbar">	
@@ -26,14 +28,7 @@
     <div id="webgl-container"></div>
     <div class="content-window">
         <h1>Hack Club | ASW</h1>
-        <div style="text-align: center; margin-bottom: 20px;">
-            <a href="https://toolbox.hackclub.com" class="portal-button">Hack Club Toolbox</a>
-            <a href="https://ahoy.hack.club/?ref=U079XM9PARJ" class="portal-button">Highseas</a>
-            <a href="guides/index.html" class="portal-button">Guides</a>
-        </div>
-
-        <hr>
-        
+        <hr>        
         <p>Here is the ASW Hack Club mainpage. This is where you will be able to find information about new projects, and links to the peronsal web pages of the members created for Boba Drops! Soon there will be information regarding activities that we have completed, but for now, we are just going to include information about where you are able to learn about the other things that Hack Club offers.</p>
         <hr>
 		<p>👑 Landpirate's <a href="people/landpirate.html">personal web page</a></p>
@@ -46,150 +41,5 @@
         <hr>
         <p>You can look at <a href="https://toolbox.hackclub.com" target="_blank">toolbox.hackclub.com</a> for what club leaders use to get ideas for workshops and activities. If you see anything interesting there that you want to try, ask your local Hack Club leader about it! The main page for Hack Club is, of course, <a href="https://hackclub.com" target="_blank">hackclub.com</a> if you want to look there.</p>
     </div>
-
-	<script>
-	    document.addEventListener('DOMContentLoaded', function() {
-	        const dropdown = document.querySelector('.dropdown');
-	        const dropdownContent = document.querySelector('.dropdown-content');
-	        const searchInput = document.querySelector('.search-input');
-	        const guideList = document.querySelector('.guide-list');
-	        let guides = [];
-	
-	        // Fetch guides from JSON file
-	        fetch('/guides.json')
-	            .then(response => response.json())
-	            .then(data => {
-	                guides = data.guides;
-	                renderGuides(guides);
-	            });
-	
-	        // Toggle dropdown
-	        dropdown.addEventListener('mouseenter', () => {
-	            dropdownContent.classList.add('show');
-	        });
-	
-	        dropdown.addEventListener('mouseleave', () => {
-	            dropdownContent.classList.remove('show');
-	        });
-	
-	        // Search functionality
-	        searchInput.addEventListener('input', (e) => {
-	            const searchTerm = e.target.value.toLowerCase();
-	            const filteredGuides = guides.filter(guide => 
-	                guide.title.toLowerCase().includes(searchTerm) ||
-	                guide.tags.some(tag => tag.toLowerCase().includes(searchTerm))
-	            );
-	            renderGuides(filteredGuides);
-	        });
-	
-	        function renderGuides(guidesToRender) {
-	            guideList.innerHTML = guidesToRender
-	                .map(guide => `
-	                    <a href="${guide.path}" class="guide-item">
-	                        ${guide.title}
-	                    </a>
-	                `).join('');
-	        }
-	    });
-	</script>
-	
-    <script>
-        let scene, camera, renderer, particles, mouseX = 0, mouseY = 0;
-
-        function init() {
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x000033);
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 10;
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.getElementById('webgl-container').appendChild(renderer.domElement);
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 30000;
-            const posArray = new Float32Array(particlesCount * 3);
-            const colorArray = new Float32Array(particlesCount * 3);
-            const sizeArray = new Float32Array(particlesCount);
-            const timeOffsetArray = new Float32Array(particlesCount);
-            for(let i = 0; i < particlesCount; i++) {
-                timeOffsetArray[i] = Math.random() * Math.PI * 2;
-            }
-            particlesGeometry.setAttribute('timeOffset', new THREE.BufferAttribute(timeOffsetArray, 1));
-
-            for(let i = 0; i < particlesCount * 3; i += 3) {
-                posArray[i] = (Math.random() - 0.5) * 500;
-                posArray[i + 1] = (Math.random() - 0.5) * 500;
-                posArray[i + 2] = (Math.random() - 0.5) * 700;
-                const colorType = Math.random();
-                if (colorType < 0.4) {
-                    colorArray[i] = 0.5 + Math.random() * 0.5;
-                    colorArray[i + 1] = 0.7 + Math.random() * 0.3;
-                    colorArray[i + 2] = 1;
-                } else if (colorType < 0.7) {
-                    colorArray[i] = 1;
-                    colorArray[i + 1] = 0.3 + Math.random() * 0.5;
-                    colorArray[i + 2] = 0.2 + Math.random() * 0.3;
-                } else if (colorType < 0.9) {
-                    colorArray[i] = 1;
-                    colorArray[i + 1] = 1;
-                    colorArray[i + 2] = 0.2 + Math.random() * 0.4;
-                } else {
-                    colorArray[i] = 0.9 + Math.random() * 0.1;
-                    colorArray[i + 1] = 0.3 + Math.random() * 0.3;
-                    colorArray[i + 2] = 0.9 + Math.random() * 0.1;
-                }
-                sizeArray[i/3] = 0.05 + Math.random() * 1.2;
-            }
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
-            const particlesMaterial = new THREE.PointsMaterial({
-                vertexColors: true,
-                transparent: true,
-                opacity: 1,
-                size: 0.6,
-                blending: THREE.AdditiveBlending,
-                depthWrite: false
-            });
-
-            particles = new THREE.Points(particlesGeometry, particlesMaterial);
-            scene.add(particles);
-            document.addEventListener('mousemove', onMouseMove, false);
-            animate();
-        }
-
-        function onMouseMove(event) {
-            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            particles.rotation.x += 0.001; 
-            particles.rotation.y += 0.002;
-            const positions = particles.geometry.attributes.position;
-            const colors = particles.geometry.attributes.color;
-            const timeOffsets = particles.geometry.attributes.timeOffset;
-            const time = Date.now() * 0.001;
-            for(let i = 0; i < positions.count; i++) {
-                const timeOffset = timeOffsets.array[i];
-                const hue = (time + timeOffset) * 0.1 % 1;
-                const color = new THREE.Color();
-                color.setHSL(hue, 0.8, 0.5);
-                colors.array[i * 3] = color.r;
-                colors.array[i * 3 + 1] = color.g;
-                colors.array[i * 3 + 2] = color.b;
-            }
-            colors.needsUpdate = true;
-            camera.position.x = mouseX * 0.5;
-            camera.position.y = mouseY * 0.5;
-            renderer.render(scene, camera);
-        }
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-        window.addEventListener('resize', onWindowResize);
-        init();
-    </script>
 </body>
 </html>
