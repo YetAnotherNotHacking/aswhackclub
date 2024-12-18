@@ -162,6 +162,61 @@
         .nav-link:hover::after {
             width: 100%;
         }
+	.dropdown {
+        position: relative;
+        display: inline-block;
+	    }
+
+    .dropdown-content {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	background: rgba(0, 0, 0, 0.9);
+	backdrop-filter: blur(20px);
+	min-width: 300px;
+	border-radius: 10px;
+	padding: 15px;
+	box-shadow: 0 0 20px rgba(0,0,0,0.5);
+	z-index: 1000;
+    }
+
+    .dropdown-content.show {
+	display: block;
+    }
+
+    .search-container {
+	margin-bottom: 10px;
+    }
+
+    .search-input {
+	width: 100%;
+	padding: 8px;
+	border: none;
+	border-radius: 5px;
+	background: rgba(255, 255, 255, 0.1);
+	color: white;
+	margin-bottom: 10px;
+    }
+
+    .guide-list {
+	max-height: 300px;
+	overflow-y: auto;
+    }
+
+    .guide-item {
+	padding: 8px;
+	color: white;
+	text-decoration: none;
+	display: block;
+	border-radius: 5px;
+	transition: background 0.3s;
+    }
+
+    .guide-item:hover {
+	background: rgba(255, 255, 255, 0.1);
+    }
     </style>
 </head>
 <body>
