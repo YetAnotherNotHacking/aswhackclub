@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>How to: Boba Drops (for real)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            height: 100%;
+        }
+        #webgl-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        code {
+            display: inline-block;
+            background-color: #000000;
+            color: #bababa;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.9em;
+            }
+        a:link {
+            color: white;
+        }
+        a:visited {
+            color: lightgray;
+        }
+        .content-window {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 900px;
+            height: 70%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 
+                0 0 0 4px rgba(255,255,255,0.2),
+                0 30px 60px rgba(0,0,0,0.5);
+            padding: 20px;
+            overflow: auto;
+            color: white;
+            z-index: 10;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        .content-window::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            right: -30px;
+            bottom: -30px;
+            background: radial-gradient(
+                ellipse at center, 
+                rgba(255,255,255,0.2) 0%, 
+                rgba(255,255,255,0) 70%
+            );
+            z-index: -1;
+            border-radius: 50px;
+            pointer-events: none;
+        }
+        .content-window h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.7);
+        }
+        .portal-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, 
+                #000000, #1a0033, #330066, #4d0099, #6600cc,
+                #7700e6, #8800ff, #7700e6, #6600cc, #4d0099,
+                #330066, #1a0033, #000000);
+            background-size: 400% 400%;
+            border-radius: 25px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            animation: portalShimmer 8s linear infinite;
+            box-shadow: 
+                0 0 15px rgba(136, 0, 255, 0.5),
+                0 0 30px rgba(136, 0, 255, 0.3),
+                0 0 45px rgba(136, 0, 255, 0.1);
+        }
+
+        .portal-button:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 20px rgba(136, 0, 255, 0.7),
+                0 0 40px rgba(136, 0, 255, 0.5),
+                0 0 60px rgba(136, 0, 255, 0.3);
+        }
+
+        .portal-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                #ff00ff, #00ffff, #ff00ff, #00ffff);
+            background-size: 400% 400%;
+            z-index: -1;
+            filter: blur(10px);
+            animation: portalShimmer 4s linear infinite;
+            opacity: 0.7;
+            border-radius: 25px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+        }
+        th {
+            background-color: #6000af;
+            text-align: left;
+        }
+
+        @keyframes portalShimmer {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 400% 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="webgl-container"></div>
+    <div class="content-window">
+    <h1>Boba Drops | ASW Hack Club</h1>
+    <h2><u>Introduction</u></h2>
+    <p>Boba drops is a you ship - we ship program from <a href="https://hackclub.com">Hack Club</a>. It allows you to make a really simple web page using both HTML and CSS and gives you money to buy boba with in return. The first guide that we did of this was not unique, so I want to make it clear to get inspired from eachothers at your own risk. If they are too similar, they might deny your submission (meaning no boba :c)</p>
+    <p>We are going to be going over different places that you are able to look to get inspiration over the internet. To be able to understand this well, I recommend that you first read <a href="htmltags.html">HTML Tags</a> to understand the basics of HTML and get some experience working with a template on the aricle about <a href="portfolio.html">making your portfolio</a></p>
+    <h2><u>Design Resources:</u></h2>
+    <h3><u>Coloring:</u></h3>
+    <h4>Coolors:</h4>
+    <p>Coolors is a simple website that is able to generate different color values and showing you the color codes to use in your CSS to be able to style your site. It has options to be able to customize how many colors as well.</p>
+    <p>Try it <a href="https://coolors.co/e5ffde-bbcbcb-9590a8-634b66-18020c">here</a></p>
+    <h4>Realtime Colors:</h4>
+    <p>Realtime colors is able to let you see how your color pallete will look after you apply it to a website. You are able to input your own colors and font in the toolbar in the bottom. It is also able to generate random color pallets just like Coolors.</p>
+    <p>You are able to try it <a href="https://www.realtimecolors.com/?colors=101a0e-f6faf5-5ebe4e-95dc89-6dda5a&fonts=Inter-Inter">here</a></p>
+    <h3>HTML Page Structuring</h3>
+    <h4>W3 Schools</h4>
+    <p>W3 is used in a lot of places in web development, it is well known and a lot of people like it. It goes into detail about a lot of HTML and is a good recourse if you want to learn how to make a website do something and you want to actually learn how the HTML works.</p>
+    <p>You are able to go to it <a href="https://www.w3schools.com/html/default.asp"">here</a></p>
+    <h4>Mozilla Developer</h4>
+    <p>Mozilla, the developer of Thunderbird mail client and the FireFox web browser have their own documentation for how HTML works (and even more detail about how HTML is rendered in FireFox) so that you are able to get an even better understanding.</p>
+    <p>You are able to find the link to it <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">here</a></p>
+    <h3>Styling</h3>
+    <h4>W3 Schools</h4>
+    <p>Omg, they are here again. I love W3 schools if you could not tell. This is the same deal with the other W3 schools but for CSS styling</p>
+    <p>You are able to get the link to it <a href="https://www.w3schools.com/css/">here</a></p>
+    <h3>Geeks for Geeks</h3>
+    <p>Geeks for geeks has a complete guide on everything that there is to know about CSS. If you really want to go deep into making really cool looking pages, you are going to want to look here.</p>
+    <p>The link to the resource is <a href="https://www.geeksforgeeks.org/css-complete-guide/">here</a></p>
+
+    <script>
+        let scene, camera, renderer, particles, mouseX = 0, mouseY = 0;
+
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x000033);
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 10;
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('webgl-container').appendChild(renderer.domElement);
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 30000;
+            const posArray = new Float32Array(particlesCount * 3);
+            const colorArray = new Float32Array(particlesCount * 3);
+            const sizeArray = new Float32Array(particlesCount);
+            const timeOffsetArray = new Float32Array(particlesCount);
+            for(let i = 0; i < particlesCount; i++) {
+                timeOffsetArray[i] = Math.random() * Math.PI * 2;
+            }
+            particlesGeometry.setAttribute('timeOffset', new THREE.BufferAttribute(timeOffsetArray, 1));
+
+            for(let i = 0; i < particlesCount * 3; i += 3) {
+                posArray[i] = (Math.random() - 0.5) * 500;
+                posArray[i + 1] = (Math.random() - 0.5) * 500;
+                posArray[i + 2] = (Math.random() - 0.5) * 700;
+                const colorType = Math.random();
+                if (colorType < 0.4) {
+                    colorArray[i] = 0.5 + Math.random() * 0.5;
+                    colorArray[i + 1] = 0.7 + Math.random() * 0.3;
+                    colorArray[i + 2] = 1;
+                } else if (colorType < 0.7) {
+                    colorArray[i] = 1;
+                    colorArray[i + 1] = 0.3 + Math.random() * 0.5;
+                    colorArray[i + 2] = 0.2 + Math.random() * 0.3;
+                } else if (colorType < 0.9) {
+                    colorArray[i] = 1;
+                    colorArray[i + 1] = 1;
+                    colorArray[i + 2] = 0.2 + Math.random() * 0.4;
+                } else {
+                    colorArray[i] = 0.9 + Math.random() * 0.1;
+                    colorArray[i + 1] = 0.3 + Math.random() * 0.3;
+                    colorArray[i + 2] = 0.9 + Math.random() * 0.1;
+                }
+                sizeArray[i/3] = 0.05 + Math.random() * 1.2;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+            const particlesMaterial = new THREE.PointsMaterial({
+                vertexColors: true,
+                transparent: true,
+                opacity: 1,
+                size: 0.6,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+
+            particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particles);
+            document.addEventListener('mousemove', onMouseMove, false);
+            animate();
+        }
+
+        function onMouseMove(event) {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            particles.rotation.x += 0.001; 
+            particles.rotation.y += 0.002;
+            const positions = particles.geometry.attributes.position;
+            const colors = particles.geometry.attributes.color;
+            const timeOffsets = particles.geometry.attributes.timeOffset;
+            const time = Date.now() * 0.001;
+            for(let i = 0; i < positions.count; i++) {
+                const timeOffset = timeOffsets.array[i];
+                const hue = (time + timeOffset) * 0.1 % 1;
+                const color = new THREE.Color();
+                color.setHSL(hue, 0.8, 0.5);
+                colors.array[i * 3] = color.r;
+                colors.array[i * 3 + 1] = color.g;
+                colors.array[i * 3 + 2] = color.b;
+            }
+            colors.needsUpdate = true;
+            camera.position.x = mouseX * 0.5;
+            camera.position.y = mouseY * 0.5;
+            renderer.render(scene, camera);
+        }
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        window.addEventListener('resize', onWindowResize);
+        init();
+    </script>
+</body>
+</html>
