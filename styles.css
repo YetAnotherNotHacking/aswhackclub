@@ -67,6 +67,18 @@ code {
     margin-bottom: 20px;
     text-shadow: 0 0 20px rgba(255,255,255,0.7);
 }
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 6px;
+}
+th {
+    background-color: #6000af;
+    text-align: left;
+}
 .portal-button {
     display: inline-block;
     padding: 12px 25px;
