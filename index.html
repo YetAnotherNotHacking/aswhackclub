@@ -121,9 +121,56 @@
                 background-position: 400% 50%;
             }
         }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            z-index: 100;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 5px 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            transform: translateY(2px) scale(1.05);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <a href="#" class="nav-link">Home</a>
+        <a href="guides/index.html" class="nav-link">Guides</a>
+        <a href="https://toolbox.hackclub.com" class="nav-link">Toolbox</a>
+        <a href="https://ahoy.hack.club/?ref=U079XM9PARJ" class="nav-link">Highseas</a>
+    </nav>
     <div id="webgl-container"></div>
     <div class="content-window">
         <h1>Hack Club | ASW</h1>
@@ -140,8 +187,8 @@
 		<p>👑 Landpirate's <a href="people/landpirate.html">personal web page</a></p>
 		<p>🙃 Coder123Hy's <a href="people/coder123hy.html">personal web page</a></p>
 		<p>🥶 Vyris's <a href="people/vyris99.html">personal web page</a></p>
-	    	<p>🌀 Aran Domguy's <a href="people/arandomguy.html"> personal web page</a></p>
-	    	<p>❓ XShuck's <a href="people/xshucks.html"> personal web page</a></p>
+        <p>🌀 Aran Domguy's <a href="people/arandomguy.html"> personal web page</a></p>
+        <p>❓ XShuck's <a href="people/xshucks.html"> personal web page</a></p>
 	    
         <p>Some more really cool personal web pages soon...</p>
         <hr>
