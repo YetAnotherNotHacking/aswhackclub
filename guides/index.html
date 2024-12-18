@@ -166,7 +166,17 @@
 <body>
     <nav class="navbar">
         <a href="#" class="nav-link">Home</a>
-        <a href="guides/index.html" class="nav-link">Guides</a>
+        <div class="dropdown">
+            <a href="guides/index.html" class="nav-link">Guides</a>
+            <div class="dropdown-content">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search guides...">
+                </div>
+                <div class="guide-list">
+                    <!-- Guides will be populated here -->
+                </div>
+            </div>
+        </div>
         <a href="https://toolbox.hackclub.com" class="nav-link">Toolbox</a>
         <a href="https://ahoy.hack.club/?ref=U079XM9PARJ" class="nav-link">Highseas</a>
     </nav>
