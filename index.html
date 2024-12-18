@@ -195,6 +195,52 @@
         <p>You can look at <a href="https://toolbox.hackclub.com" target="_blank">toolbox.hackclub.com</a> for what club leaders use to get ideas for workshops and activities. If you see anything interesting there that you want to try, ask your local Hack Club leader about it! The main page for Hack Club is, of course, <a href="https://hackclub.com" target="_blank">hackclub.com</a> if you want to look there.</p>
     </div>
 
+	<script>
+	    document.addEventListener('DOMContentLoaded', function() {
+	        const dropdown = document.querySelector('.dropdown');
+	        const dropdownContent = document.querySelector('.dropdown-content');
+	        const searchInput = document.querySelector('.search-input');
+	        const guideList = document.querySelector('.guide-list');
+	        let guides = [];
+	
+	        // Fetch guides from JSON file
+	        fetch('/guides.json')
+	            .then(response => response.json())
+	            .then(data => {
+	                guides = data.guides;
+	                renderGuides(guides);
+	            });
+	
+	        // Toggle dropdown
+	        dropdown.addEventListener('mouseenter', () => {
+	            dropdownContent.classList.add('show');
+	        });
+	
+	        dropdown.addEventListener('mouseleave', () => {
+	            dropdownContent.classList.remove('show');
+	        });
+	
+	        // Search functionality
+	        searchInput.addEventListener('input', (e) => {
+	            const searchTerm = e.target.value.toLowerCase();
+	            const filteredGuides = guides.filter(guide => 
+	                guide.title.toLowerCase().includes(searchTerm) ||
+	                guide.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+	            );
+	            renderGuides(filteredGuides);
+	        });
+	
+	        function renderGuides(guidesToRender) {
+	            guideList.innerHTML = guidesToRender
+	                .map(guide => `
+	                    <a href="${guide.path}" class="guide-item">
+	                        ${guide.title}
+	                    </a>
+	                `).join('');
+	        }
+	    });
+	</script>
+	
     <script>
         let scene, camera, renderer, particles, mouseX = 0, mouseY = 0;
 
