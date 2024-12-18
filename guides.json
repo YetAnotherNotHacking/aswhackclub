@@ -1,0 +1,14 @@
+{
+  "guides": [
+    {
+      "title": "Bash Basics",
+      "path": "/guides/bashscripting.html",
+      "tags": ["advanced"]
+    },
+    {
+      "title": "HTML Tags",
+      "path": "/guides/htmltags.html",
+      "tags": ["beginner"]
+    }
+  ]
+}
