@@ -1,14 +1,44 @@
 {
   "guides": [
     {
-      "title": "Bash Basics",
-      "path": "/guides/bashscripting.html",
-      "tags": ["advanced"]
-    },
-    {
       "title": "HTML Tags",
       "path": "/guides/htmltags.html",
       "tags": ["beginner"]
+    },
+    {
+      "title": "Installing Visual Studio Code",
+      "path": "/guides/installvscode.html",
+      "tags": ["beginner"]
+    },
+    {
+      "title": "Web Portfolio",
+      "path": "/guides/portfolio.html",
+      "tags": ["beginner"]
+    },
+    {
+      "title": "Basics of Git",
+      "path": "/guides/git_basics.html",
+      "tags": ["intermediate"]
+    },
+    {
+      "title": "Basics of the Terminal",
+      "path": "/guides/basicsoftheterminal.html",
+      "tags": ["intermediate"]
+    },
+    {
+      "title": "Basics of the Terminal",
+      "path": "/guides/basicsoftheterminal.html",
+      "tags": ["intermediate"]
+    },
+    {
+      "title": "Boba Drops Resources",
+      "path": "/guides/bobadrops.html",
+      "tags": ["intermediate"]
+    },    
+    {
+      "title": "Bash Scripting",
+      "path": "/guides/bashscripting.html",
+      "tags": ["advanced"]
     }
   ]
 }
