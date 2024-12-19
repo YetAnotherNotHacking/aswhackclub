@@ -6,6 +6,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="../scripts/background.js" defer></script>
     <script src="../scripts/searchfunc.js" defer></script>
+    <script src="../scripts/dropdown.js" defer></script>
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
@@ -33,16 +34,22 @@
         <p>If you see a typo, please also make an issue in the GitHub. These were typed quickly so typos will very much not be a suprise.</p>
         <hr>
         <h2>Our articles:</h2>
-        <h3><u>Simple</u>:</h3>
-        <p><a href="htmltags.html">Tags in HTML</a></p>
-        <p><a href="installvscode.html">Installing Visual Studio Code</a></p>
-        <p><a href="portfolio.html">Web Portfolio</a></p>
-        <h3><u>Intermediate</u>:</h3>
-        <p><a href="git_basics.html">Basics of Git</a></p>
-        <p><a href="basicsoftheterminal.html">Basics of the Terminal</a></p>
-        <p><a href="bobadrops.html">Boba Drops Resources</a></p>
-        <h3><u>Advanced</u>:</h3>
-        <p><a href="bashscripting.html">Bash Scripting</a></p> 
+        <div class="category beginner">
+            <h3>Simple:</h3>
+            <p><a href="htmltags.html">Tags in HTML</a></p>
+            <p><a href="installvscode.html">Installing Visual Studio Code</a></p>
+            <p><a href="portfolio.html">Web Portfolio</a></p>
+        </div>
+        <div class="category intermediate">
+            <h3>Intermediate:</h3>
+            <p><a href="git_basics.html">Basics of Git</a></p>
+            <p><a href="basicsoftheterminal.html">Basics of the Terminal</a></p>
+            <p><a href="bobadrops.html">Boba Drops Resources</a></p>
+        </div>
+        <div class="category advanced">
+            <h3>Advanced:</h3>
+            <p><a href="bashscripting.html">Bash Scripting</a></p> 
+        </div>
         <hr>
         <p>All of these articles are written by Landpirate. Please credit him if you use any of them, but they are free for you to take and use elsewhere!</p>
         </div>
