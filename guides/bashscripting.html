@@ -6,13 +6,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="../scripts/background.js" defer></script>
     <script src="../scripts/searchfunc.js" defer></script>
+    <script src="../scripts/dropdown.js" defer></script>
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <nav class="navbar">
         <a href="../index.html" class="nav-link">Home</a>
         <div class="dropdown">
-            <a href="index.html" class="nav-link">Guides</a>
+            <div class="dropdown-trigger">
+                <a href="index.html" class="nav-link">Guides</a>
+                <span class="dropdown-icon">▼</span>
+            </div>
             <div class="dropdown-content">
                 <div class="search-container">
                     <input type="text" class="search-input" placeholder="Search guides...">
