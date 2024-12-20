@@ -2,6 +2,8 @@
 
 ---
 
+We are working on a knowledgebase for people to be able to learn about various coding concepts and tools. Please feel free to open a PR with anything you want to change and it will be much appreciated!
+
 ## Simple:
 - [Tags in HTML](htmltags.html)
 - [Installing Visual Studio Code](installvscode.html)
