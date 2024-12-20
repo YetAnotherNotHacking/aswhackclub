@@ -6,20 +6,20 @@
 We are working on a knowledgebase for people to be able to learn about various coding concepts and tools. Please feel free to open a PR with anything you want to change and it will be much appreciated!
 
 ## Simple:
-- [Tags in HTML](htmltags.html)
-- [Installing Visual Studio Code](installvscode.html)
-- [Web Portfolio](portfolio.html)
+- [Tags in HTML](guides/htmltags.html)
+- [Installing Visual Studio Code](guides/installvscode.html)
+- [Web Portfolio](guides/portfolio.html)
 
 ## Intermediate:
-- [Basics of Git](git_basics.html)
-- [Basics of the Terminal](basicsoftheterminal.html)
-- [Boba Drops Resources](bobadrops.html)
+- [Basics of Git](guides/git_basics.html)
+- [Basics of the Terminal](guides/basicsoftheterminal.html)
+- [Boba Drops Resources](guides/bobadrops.html)
 
 ## Advanced:
-- [Bash Scripting](bashscripting.html)
+- [Bash Scripting](guides/bashscripting.html)
 
 ## Machine Learning:
-- [Linear Regression](ml-linearregression.html)
+- [Linear Regression](guides/ml-linearregression.html)
 
 ---
 
