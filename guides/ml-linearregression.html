@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>How to: Linear Regression From Scratch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="../scripts/background.js" defer></script>
+    <script src="../scripts/searchfunc.js" defer></script>
+    <script src="../scripts/dropdown.js" defer></script>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="nav-link">Home</a>
+        <div class="dropdown">
+            <a href="index.html" class="nav-link">Guides</a>
+            <div class="dropdown-content">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search guides...">
+                </div>
+                <div class="guide-list">
+                    <!-- Guides will be populated here -->
+                </div>
+            </div>
+        </div>
+        <a href="https://toolbox.hackclub.com" class="nav-link">Toolbox</a>
+        <a href="https://ahoy.hack.club/?ref=U079XM9PARJ" class="nav-link">Highseas</a>
+    </nav>
+    <div id="webgl-container"></div>
+    <div class="content-window">
+        <h1>Machine Learning / Data Science:<br>Linear Regression | ASW Hack Club</h1>
+        <hr>
+        <h2>Introduction:</h2>
+        <p>Linear regression is important in machine learning and analytical tasks like K means and K nearest neighbor because it is able to predict the trend in data. This is just a simple <a href="https://en.wikipedia.org/wiki/Loss_function">loss minimization algorithm</a></p>
+        <p>If there is anything that I maybe forget to cover here that you want more information on, here are some really good sources that cover this.</p>
+        <p>Neural Nine's video on <a href="https://www.youtube.com/watch?v=UnJCnWum6Go">Linear Regression</a><br>Neural Nine's video on <a href="https://www.youtube.com/watch?v=VmbA0pi2cRQ">Linear Regression From Sratch</a><br>Nueral Nine's blog entry on <a href="https://www.neuralnine.com/linear-regression-from-scratch-in-python/">Linear Regression From Scratch</a></p>
+        <p>If you are not able to see the trend in the links, I love Neural Nine. Most of my understanding is from a variety of his videos. I cannot recommend enough for you to watch his <a href="https://www.youtube.com/watch?v=jg5paDArl3E&list=PL7yh-TELLS1EZGz1-VDltwdwZvPV-jliQ">series on Machine Learning</a>. It is truly amazing and easy to understand assuming you take notes and really think about what he is saying.</p>
+        <hr>
+        <h2>Use-case:</h2>
+        <p>Linear regression is an algorithm that is able to predict the location of future datapoints based on datapoints that it already knows. For example, if I already know the price of a pear and the times of which that it held the price, I am able to predict the price of the pear in the future. We will take into account the positions of the pear and attempt to draw a line that will most closely follow the price of the pear.</p>
+        <img src="images/ml-linearregression/example2datapoints-pear.png">
+        <p>This example only has two elements, but you are able to see that the algorithm will be looking to find the point that connects the most to all of the points in the data. This is really only able to work with two points in the configuration that it is in currently, if you want to be able to really predict the value of any meaningful data, we are going to get a basic understand of the concepts that make linear regression work.</p>
+        <h2>Simplified Function:</h2>
+        <p>To get a base understanding of the properties of the linear regression algorithm, we are going to expand upon our value of the pear example.</p>
+        <p>If the value of the pear example, we only had the two points of data and we were essentially playing connect the dots but with an infinite line. This is super simple, but not really useful.</p>
+        <p>When you are trying to get the mean direction that all of the data is heading, you need to take all data that is present into account. The way that the algorithm does this is by putting down a line, seeing how far the line is from every point in the data, and moving it until the average distance is as low as possible. Look at this gif to be able to get a better understanding of what I mean by this.</p>
+        <div class="image-container">
+            <img src="images/ml-linearregression/linear_regression.gif" alt="Linear Regression Animation">
+            <div class="image-source">
+                Source: <a href="https://gbhat.com/machine_learning/linear_regression.html">gbhat.com - Linear Regression</a>
+            </div>
+        </div>
+        <p>This example is showing the line moving according to the amount of error present in the data squared. It is squared to ensure that the error is positive as well as make the error bigger so that it is easier to adjust for to find what changes the value even if just by a little bit.</p>
+        <p>Now we understand the idea of moving the line to where it has the least distance to all of the points present in the data.</p>
+        <p>We now need to understand how the loss or error is calculated. There is another gif that is able to help us understand this.</p>
+        <p>A line is randomly drawn on the data initially, then the a line is drawn that finds the closest connection between the dot and the line, this is the loss of the initial line. The line is then moved in one direction, and the effect on the loss is recorded. If the loss goes down (meaning it is getting closer to the trend of the data) then it will keep moving in that direction. If the loss gets higher (meaning that the line is moving away from the trend of the data) then the move is reversed and it will begin to travel in the other direction. Once the physical location of the line is optimized, the rotation will begin spinning the line left and right to find the angle of the line that most closely aligns with the data, again moving in the same ways as before according to wether the error increases or decreases. They then take turns moving it and rotating it until the loss is at the lowest possible point.</p>
+        <div class="image-container">
+            <img src="images/ml-linearregression/linear_regression2.gif" alt="Linear Regression (2) Animation">
+            <div class="image-source">
+                Source: <a href="https://medium.com/@novus_afk/linear-regression-an-overview-13d37a6bc4dd">Medium - Linear Regression (An Overview)</a>
+            </div>
+        </div>
+        <p>This image really well shows how the algorithm is looking at the distance between all of the points and the line to be able to adjust the line to follow the overall trend of the data most cloesly.</p>
+        <p>Now that we know how it is done conceptually, let's dig into the math. This may appear complicated but I can assume that I am tottaly able to perfectly explain it first try with no confusing elements :).</p>
+        <h2>The Math</h2>
+        <p>First, here is the equation. You are able to <u>hover over it</u> to be able to get an understand of each of the elements purpose and function.</p>
+        <p class="equation">
+            <span class="hover-info">y<span class="tooltip">The predicted output (target variable).</span></span> = 
+            <span class="hover-info">w<sub>1</sub><span class="tooltip">The weight (coefficient) for feature x<sub>1</sub>, determining its contribution.</span></span>
+            <span class="hover-info">x<sub>1</sub><span class="tooltip">The first input feature.</span></span> + 
+            <span class="hover-info">w<sub>2</sub><span class="tooltip">The weight (coefficient) for feature x<sub>2</sub>, determining its contribution.</span></span>
+            <span class="hover-info">x<sub>2</sub><span class="tooltip">The second input feature.</span></span> + 
+            <span class="hover-info">...<span class="tooltip">Additional features and their weights can be added as needed</span></span> + 
+            <span class="hover-info">w<sub>n</sub><span class="tooltip">The weight (coefficient) for feature x<sub>n</sub>, determining its contribution.</span></span>
+            <span class="hover-info">x<sub>n</sub><span class="tooltip">The nth input feature.</span></span> + 
+            <span class="hover-info">b<span class="tooltip">The bias (intercept), accounting for the baseline prediction when all features are zero.</span></span>
+        </p>
+        <p>For those of you (no judgement I didn't either) that still don't understand this, lets break it down more here.</p>
+        <p>The "Y is the predicted output, the target variable. This is what the model is going to try to estimate.</p>
+        <p>The weights w₁, w₂, ..., wₙ are the inputted weights from the model. The weight is used to gauge how importance an inputted value is in regard to the expected output. If this does not make sense it will later. The values of wn represent the important of the associated value in yn (being the y1, y2, ... yn).</p>
+        <p>b is for correcting for the y intercept if it is not 0.</p>
+        <p>The equation predicts 𝑦 as the weighted sum of the input features plus the bias term. The goal in linear regression is to find the optimal weights (the w values) that minimize the difference/deviation in the predicted values and the actual values that are present in the data. This connects to what I was saying earlier, you are moving around the values in w1, w2, ... wn and so on until you are able to make the line as closely match the data as possible.</p>
+        
+
+        <p>If this math is not simple enough to understand, you might be able to look at the source paper that it was derived from. This is more complex as this page was simplified for a highschool understanding of mathematics, but you can view the source <a href="https://www.ncl.ac.uk/webtemplate/ask-assets/external/maths-resources/statistics/regression-and-correlation/simple-linear-regression.html">here</a> and another source that was used in the creation <a href="https://en.wikipedia.org/wiki/Simple_linear_regression">here</a></p>
+
+        <h3>Mean Squared Error (MSE)</h3>
+        <p>The Mean Squared Error is how we measure how well our line fits the data. The smaller the MSE, the better our prediction line matches our actual data points.</p>
+        <p>The MSE can help identify overfitting or underfitting issues. A very small MSE on training data may suggest the model is overfitting, capturing noise in the data, while a larger MSE may suggest underfitting, where the model is too simple to capture the trend.</p>
+        <p>To prevent this, it's important to check how well the model performs on both the training data and new, unseen data, ensuring that the model generalizes well rather than just memorizing the training examples.</p>
+        
+        <p class="equation">
+            <span class="hover-info">MSE<span class="tooltip">Mean Squared Error - measures how well our prediction matches reality</span></span> = 
+            <span class="hover-info">1/m<span class="tooltip">Average over m data points, where m is the total number of samples</span></span>
+            <span class="hover-info">∑<span class="tooltip">Sum up all the errors from i=1 to m</span></span>
+            <span class="hover-info">(y<sub>pred,i</sub> - y<sub>actual,i</sub>)<sup>2</sup><span class="tooltip">Square of the difference between predicted value and actual value for each point i</span></span>
+        </p>
+
+        <p>Breaking down the MSE formula:</p>
+        <ul>
+            <li>We take each prediction our model makes (y<sub>pred</sub>) and compare it to the actual value (y<sub>actual</sub>)</li>
+            <li>We square the difference to:
+                <ul>
+                    <li>Make all errors positive (since negative errors are just as bad as positive ones)</li>
+                    <li>Penalize larger errors more heavily than smaller ones</li>
+                </ul>
+            </li>
+            <li>We add up all these squared errors</li>
+            <li>Finally, we take the average by dividing by the number of data points (m)</li>
+        </ul>
+
+        <p>The goal of linear regression is to find the line that gives us the smallest possible MSE value.</p>
+
+        <h3>Gradient Descent</h3>
+        <p>To find the optimal weights and bias that minimize our MSE, we use an algorithm called Gradient Descent. This algorithm:</p>
+        <ul>
+            <li>Takes small steps in the direction that reduces the error the most</li>
+            <li>Updates the weights and bias using partial derivatives of the MSE</li>
+            <li>Repeats this process until the error can't be reduced further</li>
+        </ul>
+
+        <p class="equation">
+            <span class="hover-info">w = w - α * ∂MSE/∂w<span class="tooltip">Update rule for weights: current weight minus learning rate times partial derivative</span></span><br>
+            <span class="hover-info">b = b - α * ∂MSE/∂b<span class="tooltip">Update rule for bias: current bias minus learning rate times partial derivative</span></span>
+        </p>
+
+        <p>Where α (alpha) is the learning rate that controls how big our steps are when updating the parameters.</p>
+
+        <h2>Python Implementation</h2>
+        <p>Here's a complete implementation of linear regression from scratch:</p>
+
+        <pre><code class="language-python">
+import numpy as np
+import matplotlib.pyplot as plt
+
+class LinearRegression:
+    def __init__(self, learning_rate=0.01, n_iterations=1000):
+        self.learning_rate = learning_rate
+        self.n_iterations = n_iterations
+        self.weights = None
+        self.bias = None
+        self.history = {'loss': []}
+
+    def fit(self, X, y):
+        # Initialize parameters
+        n_samples, n_features = X.shape
+        self.weights = np.zeros(n_features)
+        self.bias = 0
+
+        # Gradient descent
+        for _ in range(self.n_iterations):
+            # Forward pass (make predictions)
+            y_predicted = self._predict(X)
+
+            # Calculate gradients
+            dw = (1/n_samples) * np.dot(X.T, (y_predicted - y))
+            db = (1/n_samples) * np.sum(y_predicted - y)
+
+            # Update parameters
+            self.weights -= self.learning_rate * dw
+            self.bias -= self.learning_rate * db
+
+            # Calculate and store loss
+            loss = self._mse(y, y_predicted)
+            self.history['loss'].append(loss)
+
+    def _predict(self, X):
+        return np.dot(X, self.weights) + self.bias
+
+    def predict(self, X):
+        return self._predict(X)
+
+    def _mse(self, y_true, y_pred):
+        return np.mean((y_true - y_pred) ** 2)
+
+# Example usage:
+if __name__ == "__main__":
+    # Generate sample data
+    np.random.seed(0)
+    X = np.random.randn(100, 1) * 10
+    y = 2 * X.squeeze() + 1 + np.random.randn(100) * 2
+
+    # Create and train model
+    model = LinearRegression(learning_rate=0.0001, n_iterations=1000)
+    model.fit(X, y)
+
+    # Make predictions
+    y_pred = model.predict(X)
+
+    # Plot results
+    plt.figure(figsize=(10, 6))
+    plt.scatter(X, y, color='blue', label='Data')
+    plt.plot(X, y_pred, color='red', label='Prediction')
+    plt.xlabel('X')
+    plt.ylabel('y')
+    plt.legend()
+    plt.title('Linear Regression Example')
+    plt.show()
+
+    # Plot loss history
+    plt.figure(figsize=(10, 6))
+    plt.plot(model.history['loss'])
+    plt.xlabel('Iteration')
+    plt.ylabel('Mean Squared Error')
+    plt.title('Training Loss Over Time')
+    plt.show()
+</code></pre>
+
+        <h3>Code Explanation</h3>
+        <p>The implementation above includes several key components:</p>
+        <ul>
+            <li><strong>Initialization:</strong> We start with random weights and zero bias</li>
+            <li><strong>Forward Pass:</strong> Predictions are made using the equation y = wx + b</li>
+            <li><strong>Backward Pass:</strong> We calculate gradients to update our parameters</li>
+            <li><strong>Parameter Updates:</strong> Weights and bias are updated using gradient descent</li>
+            <li><strong>Loss Tracking:</strong> We monitor the MSE throughout training</li>
+        </ul>
+
+        <p>The example also includes visualization code to show:</p>
+        <ul>
+            <li>The fitted line against the original data points</li>
+            <li>How the loss (MSE) decreases during training</li>
+        </ul>
+
+        <p>This implementation can be extended to handle multiple features and can be modified to include regularization terms if needed.</p>
+        <h3>Code Preview</h3>
+        <p>This is just a preview for what the code looks like with its function.</p>
+        <p>This is the regression line with the test data:</p>
+        <img src="images/ml-linearregression/example_run_regline.png">
+        <p>This is the loss over time graph showing how far the line was from the goal:</p>
+        <img src="images/ml-linearregression/example_run_lossovertime.png">
+        <hr>
+        <p>If there are any edits that you would like to request to be added to this, please submit them in an issue in <a href="https://github.com/yetanothernothacking/aswhackclub">the GitHub</a> or you can send an email to <a href="mailto:sysadmin@silverflag.net">sysadmin@silverflag.net</a></p>
+    </div>
+</body>
+</html>
