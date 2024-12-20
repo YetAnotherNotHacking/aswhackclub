@@ -1,5 +1,5 @@
 <div style="text-align: center;">
-    <img src="aswhackclublogo_temp.png" alt="silverflag.net easteregg (something broken)" />
+    <img src="aswhackclublogo_temp.png" alt="silverflag.net easteregg (something broken)"/>
 </div>
 ---
 
