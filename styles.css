@@ -67,6 +67,15 @@ code {
     margin-bottom: 20px;
     text-shadow: 0 0 20px rgba(255,255,255,0.7);
 }
+.content-window img {
+    display: block;
+    width: 66.67%;
+    margin: 20px auto;
+    height: auto;
+}
+.content-window h2 {
+    text-align: center;
+}
 table {
     border-collapse: collapse;
     width: 100%;
@@ -103,6 +112,9 @@ th {
 
 .advanced::before {
     background-color: #ff6f6f;
+}
+.ml::before {
+    background-color: #8c12ff;
 }
 .portal-button {
     display: inline-block;
@@ -338,4 +350,102 @@ background: rgba(255, 255, 255, 0.1);
     margin-left: 10px;
     z-index: 1000;
     pointer-events: none;
+}
+
+.image-container {
+    margin: 20px 0;
+    position: relative;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.image-container img {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    border-radius: 4px;
+}
+
+.image-source {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #666;
+    text-align: right;
+    font-style: italic;
+}
+
+.image-source a {
+    color: #444;
+    text-decoration: none;
+    border-bottom: 1px dotted #666;
+}
+
+.image-source a:hover {
+    color: #000;
+    border-bottom: 1px solid #000;
+}
+
+/* Equation Styling */
+.equation {
+    font-size: 1.5em;
+    margin: 20px auto;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    display: block;
+    text-align: center;
+    width: fit-content;
+}
+
+.hover-info {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.hover-info:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.hover-info .tooltip {
+    visibility: hidden;
+    width: 200px;
+    background-color: var(--background-color, #f9f9f9);
+    color: var(--text-color, #333);
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 120%;
+    left: 50%;
+    margin-left: -100px;
+    font-size: 0.7em;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s ease-out;
+    transform: translateY(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hover-info:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Add arrow to tooltip */
+.hover-info .tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #ddd transparent transparent transparent;
 }
