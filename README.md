@@ -1,4 +1,4 @@
-# ![Centered Logo](asw.hackclub.com/asw@hackclub.png)
+# ![Centered Logo](aswhackclublogo_temp.png)
 
 ---
 
