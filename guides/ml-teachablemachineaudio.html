@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>How to: Audio on Teachable Machine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="../scripts/background.js" defer></script>
+    <script src="../scripts/searchfunc.js" defer></script>
+    <script src="../scripts/dropdown.js" defer></script>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="nav-link">Home</a>
+        <div class="dropdown">
+            <a href="index.html" class="nav-link">Guides</a>
+            <div class="dropdown-content">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search guides...">
+                </div>
+                <div class="guide-list">
+                    <!-- Guides will be populated here -->
+                </div>
+            </div>
+        </div>
+        <a href="https://toolbox.hackclub.com" class="nav-link">Toolbox</a>
+        <a href="https://ahoy.hack.club/?ref=U079XM9PARJ" class="nav-link">Highseas</a>
+    </nav>
+    <div id="webgl-container"></div>
+    <div class="content-window">
+        <h1>Machine Learning / Data Science:<br>The Google Teachable Machine | ASW Hack Club</h1>
+        <hr>
+        <h2>Introduction:</h2>
+        <p>There is a really cool website that allows you to make a really really simple machine learning program. It's called <a href="https://teachablemachine.withgoogle.com/">Teachable Machine</a>. It's really easy to use, and it's a great way to get started with machine learning.</p>
+        <p>We are going to be going over the basics of how to use Teachable Machine, and how to make a really simple object recognition program.</p>
+        <hr>
+        <h2>How to use Teachable Machine:</h2>
+        <h3>Step 1: Go to the Teachable Machine website</h3>
+        <p>Go to <a href="https://teachablemachine.withgoogle.com/">Teachable Machine</a> and click on the "Get Started" button.</p>
+        <p>Select "Audio Project"</p>
+        <h3>Step 2: Choose what you want to do</h3>
+        <p>This audio capability is really cool, you are able to figure out what a sound it. It can for exmaple determine the difference between a clap and a snap, or maybe different types of music, or instruments. It is just a simple classification problem. </p>
+        <h3>Step 3: Upload/Record your audio</h3>
+        <p>You are first going to record 20 seconds of background noise.</p>
+        <img src="images/ml-firstmlprogramaudio/backgroundnoise.png" alt="Background Noise Recording">
+        <p>Then you are going to record 4 clips of you repeatly snapping or whatever you are wanting to identify. For the people paying attention, you notice that there is a minimun of 8 recordings. You need 4 and then click "Extract Samples" to get 2 for that recording.</p>
+        <img src="images/ml-firstmlprogramaudio/firstitem.png" alt="Snaps Recording">
+        <p>Once you have the first one, get the second one recorded doing the same things. Do it four time as well.</p>
+        <img src="images/ml-firstmlprogramaudio/seconditem.png" alt="Snaps Recording">
+        <h3>Step 4: Train your model</h3>
+        <p>Click the "Train" button, and then wait for it to finish. This is going to take a while, so be patient. The page may stop responding, this can be disregarded.</p>
+        <h3>Step 5: Test your model</h3>
+        <p>Once it is trainined, you will be able to use the 'Preview" section to be able to see your model working. You should be able to see a bargraph about the prediction of what is currently happning.</p>
+        <p>Since I was not in a quite enough room writhing this my examples are not really good since there was too much background noise.</p>
+        <p>Here is an example if it knowing when I was clapping:</p>
+        <img src="images/ml-firstmlprogramaudio/claps.png" alt="Claps Recording"> 
+        <p>Congrats! You've made your first machine learning program! This is the first of many, this is only the audio recognitation part. There are many other interesting things that you are able to do with machine learning. I hope this peaks your interests.</p>
+        <hr>
+        <p>If there are any edits that you would like to request to be added to this, please submit them in an issue in <a href="https://github.com/yetanothernothacking/aswhackclub">the GitHub</a> or you can send an email to <a href="mailto:sysadmin@silverflag.net">sysadmin@silverflag.net</a></p>
+    </div>
+</body>
+</html>
