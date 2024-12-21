@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>How to: Linear KNN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="../scripts/background.js" defer></script>
+    <script src="../scripts/searchfunc.js" defer></script>
+    <script src="../scripts/dropdown.js" defer></script>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="nav-link">Home</a>
+        <div class="dropdown">
+            <a href="index.html" class="nav-link">Guides</a>
+            <div class="dropdown-content">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search guides...">
+                </div>
+                <div class="guide-list">
+                    <!-- Guides will be populated here -->
+                </div>
+            </div>
+        </div>
+        <a href="https://toolbox.hackclub.com" class="nav-link">Toolbox</a>
+        <a href="https://ahoy.hack.club/?ref=U079XM9PARJ" class="nav-link">Highseas</a>
+    </nav>
+    <div id="webgl-container"></div>
+    <div class="content-window">
+        <h1>Machine Learning / Data Science:<br>K Nearest Neighbors Regression | ASW Hack Club</h1>
+        <hr>
+        <h2>Introduction:</h2>
+        <p>K-Nearest Neighbors (KNN) is a simple (simple relative to others) machine learning algorithm used for classification or regression. It works by finding the 𝑘 closest data points (neighbors) to a query point and making predictions based on the majority label (for classification) or the average value (for regression) of those neighbors. For example, imagine you have points representing apples and oranges on a graph, and you want to classify a new point. By checking the closest neighbors, if most are labeled as "apple," the new point is classified as an apple.</p>
+        <p>Here is an example in Python that performs KNN.</p>
+        <pre><code>
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.neighbors import KNeighborsClassifier
+
+# Generate sample data with two informative features
+X, y = make_classification(
+    n_samples=100,
+    n_features=2,
+    n_informative=2,
+    n_redundant=0,
+    n_clusters_per_class=1,
+    random_state=42
+)
+new_point = np.array([[0.5, -0.5]])
+
+# Fit KNN
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X, y)
+
+# Predict the class of the new point
+predicted_class = knn.predict(new_point)
+
+# Plot data
+plt.scatter(X[:, 0], X[:, 1], c=y, cmap='coolwarm', edgecolors='k')
+plt.scatter(new_point[0, 0], new_point[0, 1], c='yellow', edgecolors='k', s=100, label='New Point')
+plt.title('K-Nearest Neighbors Example')
+plt.legend()
+plt.show()
+        </code></pre>
+        <p>This is what the output of that would be:</p>
+        <img src="images/ml-knearestneighbor/knn_newpointdemo.png">
+        <p>You are able to see that there are two distinct already created data groups. We want to figure out where this point belongs. We are going to compare the distances of the point to the known datapoints to see which group it should belong to.</p>
+        <p>The steps are as followed:</p>
+        <ol>
+            <li>Distance Measuerment: The algrorithm will calculate the distance between the new point and the distance of the point from all of the other points in the dataset. This can use different forms of distance, normally Euclidean distance, but occasionally Manhattan distance or Minkowski distance.</li>
+            <li>Nearest Neighboors: It finds 𝑘 nearest neighboors. For example, if 𝑘 is 5 then it would find the 5 nearest neighboors to the point. We record the top closest points to look at in the next step.</li>
+            <li>Voting: Each of the neighboors in 𝑘 vote based on their group/class/label. For classification using KNN, the group that has a majority of the neighboors around the point is the classification assigned to the new datapoint.</li>
+            <li>Assigning the Classification: One the votes have been talied from the points neighboors, the classification consensus from the neighboors is tallied and the highest voted consensus is applied to the new point.</li>
+        </ol>
+        <p>As one final technical example, imagine you have a new point and the value of 𝑘 is 5. You will look at the neighbooring points and extract the 5 highest points. You will look at how many points there are and what group/label/classification they belong to, and whichever is the majorty type is the type that is applied to the new datapoint.</p>
+        <p class="equation"> <span class="hover-info">d(p, q)<span class="tooltip">Euclidean Distance - measures the straight-line distance between two points in space</span></span> = <span class="hover-info">√<span class="tooltip">Square root of the sum of squared differences</span></span> <span class="hover-info">∑<sub>i=1</sub><sup>n</sup><span class="tooltip">Sum over all features (n-dimensional space)</span></span> <span class="hover-info">(p<sub>i</sub> - q<sub>i</sub>)<sup>2</sup><span class="tooltip">Square of the difference between the i-th feature of points p and q</span></span> </p> <p>The formula computes the distance between two points <i>p</i> (the new point) and <i>q</i> (an existing data point) in an <i>n</i>-dimensional space.</p> <p class="equation"> <span class="hover-info">class(new_point)<span class="tooltip">Class assigned to the new point</span></span> = <span class="hover-info">argmax<span class="tooltip">Finds the label with the highest count</span></span> <span class="hover-info">∑<sub>i=1</sub><sup>k</sup><span class="tooltip">Sum over the k-nearest neighbors</span></span> <span class="hover-info">I(label<sub>i</sub> = label<sub>j</sub>)<span class="tooltip">Indicator function: 1 if labels match, 0 otherwise</span></span> </p> <p>This formula assigns a class to the new point by finding the most frequent label among the <i>k</i>-nearest neighbors, using the indicator function <i>I</i> to count matching labels.</p>
+        <p>As a final examlpe, here is a gif that does a really good job of summarizing this entire process.</p>
+
+        <div class="image-container">
+            <img src="images/ml-knearestneighbor/knearestneighborsprocess.gif" alt="Linear Regression (2) Animation">
+            <div class="image-source">
+                Source: <a href="https://miro.medium.com/v2/resize:fit:1400/1*_r-PcPEK7css8UDINDgkgg.gif">Towards Data Science</a>
+            </div>
+        </div>
+        <p>That is it for k nearest neighboors, a useful classification algorithm for machine learning!</p>
+        <hr>
+        <p>If there are any edits that you would like to request to be added to this, please submit them in an issue in <a href="https://github.com/yetanothernothacking/aswhackclub">the GitHub</a> or you can send an email to <a href="mailto:sysadmin@silverflag.net">sysadmin@silverflag.net</a></p>
+    </div>
+</body>
+</html>
