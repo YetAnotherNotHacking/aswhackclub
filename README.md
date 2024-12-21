@@ -20,6 +20,7 @@ We are working on a knowledgebase for people to be able to learn about various c
 
 ## Machine Learning:
 - [Linear Regression](guides/ml-linearregression.html)
+- [K Nearest Neighboors](guides/ml-knearestneighbors.html)
 
 ---
 
