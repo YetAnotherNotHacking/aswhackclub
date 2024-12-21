@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>How to: WithGoogle Machine Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="../scripts/background.js" defer></script>
+    <script src="../scripts/searchfunc.js" defer></script>
+    <script src="../scripts/dropdown.js" defer></script>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="nav-link">Home</a>
+        <div class="dropdown">
+            <a href="index.html" class="nav-link">Guides</a>
+            <div class="dropdown-content">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search guides...">
+                </div>
+                <div class="guide-list">
+                    <!-- Guides will be populated here -->
+                </div>
+            </div>
+        </div>
+        <a href="https://toolbox.hackclub.com" class="nav-link">Toolbox</a>
+        <a href="https://ahoy.hack.club/?ref=U079XM9PARJ" class="nav-link">Highseas</a>
+    </nav>
+    <div id="webgl-container"></div>
+    <div class="content-window">
+        <h1>Machine Learning / Data Science:<br>Your First Machine Learning Program | ASW Hack Club</h1>
+        <hr>
+        <h2>Introduction:</h2>
+        <p>There is a really cool website that allows you to make a really really simple machine learning program. It's called <a href="https://teachablemachine.withgoogle.com/">Teachable Machine</a>. It's really easy to use, and it's a great way to get started with machine learning.</p>
+        <p>We are going to be going over the basics of how to use Teachable Machine, and how to make a really simple object recognition program.</p>
+        <hr>
+        <h2>How to use Teachable Machine:</h2>
+        <h3>Step 1: Go to the Teachable Machine website</h3>
+        <p>Go to <a href="https://teachablemachine.withgoogle.com/">Teachable Machine</a> and click on the "Get Started" button.</p>
+        <p>Select "Image Project"</p>
+        <p>Choose the standard image model</p>
+        <h3>Step 2: Choose what you want to do</h3>
+        <p>It is best to think of two really distinct categories of objects. For example, you could do a program that recognizes a cat or a dog, or a program that recognizes a car or a truck. What you don't want to do is compare two similar objects like two slightly different types of apples. It is possible for a model to recognize them, but that would require a rather large dataset.</p>
+        <h3>Step 3: Upload your images</h3>
+        <p>Spend a bit getting several good images of your objects. You want to make sure that the images are clear and that the object is in the center of the image, which a variety of lighting and angles. You want to upload at least 10 images for each object.</p>
+        <p>You are just going to be uploading the images into their respective class.</p>
+        <p>Select Webcam and then move your object into the view. Move it around while holding the "Hold to record" button.</p>
+        <p>Here is an image with an example of an Arizona Iced Tea and my phone.</p>
+        <img src="images/ml-firstmlprogram/teaandphone.png" alt="Arizona Iced Tea and my phone training data">
+        <h3>Step 4: Train your model</h3>
+        <p>Click on the "Train" button to train your model. This may take at most a few minutes.</p>
+        <p>It may say that the page is unresponsive, but it is just training. Keep the tab open and in focus and it will finish training.</p>
+        <h3>Step 5: Test your model</h3>
+        <p>After the model is trained, you are able to test the model with the Preview window. You are also able to download it if you want to use it in TensorFlow in python but we wont do that yet.</p>
+        <p>Here is an image with an example of an Arizona Iced Tea and my phone being recognized pretty accurately.</p>
+        <div style="display: flex; justify-content: space-between; margin: 20px 0;">
+            <img src="images/ml-firstmlprogram/tea.png" alt="Arizona Tea Recognition" style="width: 48%;">
+            <img src="images/ml-firstmlprogram/phone.png" alt="Phone Recognition" style="width: 48%;">
+        </div>
+        <p>Congrats! You've made your first machine learning program! This is the first of many, this is only the image recognitation part. There are many other interesting things that you are able to do with machine learning. I hope this peaks your interests.</p>
+
+        <hr>
+        <p>If there are any edits that you would like to request to be added to this, please submit them in an issue in <a href="https://github.com/yetanothernothacking/aswhackclub">the GitHub</a> or you can send an email to <a href="mailto:sysadmin@silverflag.net">sysadmin@silverflag.net</a></p>
+    </div>
+</body>
+</html>
