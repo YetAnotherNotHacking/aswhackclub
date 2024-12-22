@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>How to: Introduction to MediaPipe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="../scripts/background.js" defer></script>
+    <script src="../scripts/searchfunc.js" defer></script>
+    <script src="../scripts/dropdown.js" defer></script>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="nav-link">Home</a>
+        <div class="dropdown">
+            <a href="index.html" class="nav-link">Guides</a>
+            <div class="dropdown-content">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search guides...">
+                </div>
+                <div class="guide-list">
+                </div>
+            </div>
+        </div>
+        <a href="https://toolbox.hackclub.com" class="nav-link">Toolbox</a>
+        <a href="https://ahoy.hack.club/?ref=U079XM9PARJ" class="nav-link">Highseas</a>
+    </nav>
+    <div id="webgl-container"></div>
+    <div class="content-window">
+        <h1>Machine Learning / Data Science:<br>Python & MediaPipe | ASW Hack Club</h1>
+        <hr>
+        <h2>Introduction:</h2>
+        <p>MediaPipe is a library made by Google that is able to do a large number of interesting things with machine learning. It is able to track the position of your hands, your face, and a many other things. It is able to do this by using a variety of models that are able to track the position of the things that you are looking at.</p>
+        <p>We are going to be going over the basics of how to use MediaPipe, and how to use each of the models in an example program with showing the output in OpenCV.</p>
+        <p>There will not be any demonstration of how they look here because that takes a bit to get and images take up a lot of storage on the server...</p>
+        <h2>Types of Models:</h2>
+        <p>This is just a table of all of the MediaPipe models that you are able to use in Python</p>
+        <table>
+            <tr>
+                <th>Model</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>Pose</td>
+                <td>Tracks the position of your body and light tracking on hands and face</td>
+            </tr>
+            <tr>
+                <td>Face Mesh</td>
+                <td>Tracks the position of your face with a large number of points</td>
+            </tr>
+            <tr>
+                <td>Hand</td>
+                <td>Tracks the position of your hands</td>
+            </tr>
+            <tr>
+                <td>Holistic</td>
+                <td>Tracks the position of your hands, face, and body</td>
+            </tr>
+            <tr>
+                <td>Selfie Segmentation</td>
+                <td>Tracks the pixels that are and aren't your face</td>
+            </tr>
+        </table>
+        <p>We will be sharing an example of how to use each of these models in the Python programming language. We will be using OpenCV to visualize the output.</p>
+        <h2>Examples</h2>
+        <p>This will be in the same order as the table above.</p>
+        <h3>Pose</h3>
+        <p>The pose model is able to track the position of landmarks across your body. The one we are using has 33 landmars, these are spread out around the area of your body and is generally good for tasks that require a general estimate of a large overall position of the body</p>
+        <p>Here is an example of the code to run the pose model:</p>
+        <pre><code class="language-python">
+import cv2
+import mediapipe as mp
+
+mp_pose = mp.solutions.pose
+mp_drawing = mp.solutions.drawing_utils
+
+cap = cv2.VideoCapture(0)
+
+with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        results = pose.process(frame_rgb)
+
+        if results.pose_landmarks:
+            mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+
+        cv2.imshow('Pose Detection', frame)
+
+        if cv2.waitKey(1) & 0xFF == 27:
+            break
+
+cap.release()
+cv2.destroyAllWindows()
+        </code></pre>
+        <p>The prerequesites for this are that you have the MediaPipe library installed, and that you have OpenCV installed. You can install the MediaPipe library by running <code>pip install mediapipe</code>, and you can install OpenCV by running <code>pip install opencv-python</code>.</p>
+        <p>In the very top of the script, you are importing both of the packages to be able to use them in the script.</p>
+        <p>Then you see mp_pose veriable being set to use the pose model, and mp_drawing being set to use the drawing utils.</p>
+        <p>Then you see the video capture being set to the default camera, and the with statement being used to create the pose model.</p>
+        <p>The with statement is used to ensure that the model is closed after it is used, this is a good practice when dealing with models that use a lot of resources.</p>
+        <p>Then you see the while loop, this is used to continuously read the camera and process the frames.</p>
+        <p>The frame is then converted to RGB, and the results are processed by the pose model.</p>
+        <p>If the results have pose landmarks, then the landmarks are drawn on the frame.</p>
+        <p>Then the frame is shown, and the loop breaks if the user presses the "escape" or "esc" key.</p>
+        <p>Finally, the video capture is released, and the windows are destroyed and the program exits cleanly.</p>
+        <h3>Face Mesh</h3>
+        <p>The face mesh is easily my favorite model in MediaPipe. It looks straight out of every super surveillance movie (1984 cough) and is able to track the position of 468 landmarks across your face. This is great for tasks that require a high level of accuracy in the position of your face. You are able to do some pretty sick things like <a href="https://www.samproell.io/posts/yarppg/yarppg-extract-heartbeat-signals/">estimating your heart rate</a> using small movements around your nose.</p>
+        <p>Now here is a very simple example using the face mesh and showing it over the face.</p>
+        <pre><code class="language-python">
+import cv2
+import mediapipe as mp
+
+mp_face_mesh = mp.solutions.face_mesh
+mp_drawing = mp.solutions.drawing_utils
+
+cap = cv2.VideoCapture(0)
+
+with mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, min_detection_confidence=0.5, min_tracking_confidence=0.5) as face_mesh:
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        results = face_mesh.process(frame_rgb)
+
+        if results.multi_face_landmarks:
+            for face_landmarks in results.multi_face_landmarks:
+                mp_drawing.draw_landmarks(frame, face_landmarks, mp_face_mesh.FACEMESH_TESSELATION)
+
+        cv2.imshow('Face Mesh', frame)
+
+        if cv2.waitKey(1) & 0xFF == 27:
+            break
+
+cap.release()
+cv2.destroyAllWindows()
+        </code></pre>
+        <p>This is largely the same as the script above so I am not going to go into a large amount of explanation. Same thing with the imports, defenition of the variables, and the conversion into RGB, and showing the images with a way to escape the program.</p>
+        <h3>Hand</h3>
+        <p>The hand landmark detection has a landmark at each of the major joints in your hands, each joint in your finger as well as the base of your finder, and your wrist. This is useful if you want to make a program that is able to, for example, move your mouse around on your screen while making pinching click like I did as a project when I was learning how to use MediaPipe. Pinching can be checked by seeing the Euclidian distance between the two points of the ends of the fingers that you intend to track.</p>
+        <pre><code class="language-python">
+import cv2
+import mediapipe as mp
+
+mp_hands = mp.solutions.hands
+mp_drawing = mp.solutions.drawing_utils
+
+cap = cv2.VideoCapture(0)
+
+with mp_hands.Hands(static_image_mode=False, max_num_hands=2, min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        results = hands.process(frame_rgb)
+
+        if results.multi_hand_landmarks:
+            for hand_landmarks in results.multi_hand_landmarks:
+                mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+
+        cv2.imshow('Hand Tracking', frame)
+
+        if cv2.waitKey(1) & 0xFF == 27:
+            break
+
+cap.release()
+cv2.destroyAllWindows()
+        </code></pre>
+        <p>This script functions the same as all of the other ones that I have already explained.</p>
+        <h3>Holistic</h3>
+        <p>The defenition of holistic is "encompassing the whole thing, not just one part" which is exactly what this model does. It combines the tracking of your hands, pose, and face landmarks all into one model. Here is a script that is able to do all of those.</p>
+        <pre><code class="language-python">
+import cv2
+import mediapipe as mp
+
+mp_holistic = mp.solutions.holistic
+mp_drawing = mp.solutions.drawing_utils
+
+cap = cv2.VideoCapture(0)
+
+with mp_holistic.Holistic(
+    static_image_mode=False,
+    model_complexity=1,
+    smooth_landmarks=True,
+    min_detection_confidence=0.5,
+    min_tracking_confidence=0.5) as holistic:
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        results = holistic.process(frame_rgb)
+
+        if results.pose_landmarks:
+            mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS)
+        if results.face_landmarks:
+            mp_drawing.draw_landmarks(frame, results.face_landmarks, mp_holistic.FACE_CONNECTIONS)
+        if results.left_hand_landmarks:
+            mp_drawing.draw_landmarks(frame, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS)
+        if results.right_hand_landmarks:
+            mp_drawing.draw_landmarks(frame, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS)
+
+        cv2.imshow('Holistic Model', frame)
+
+        if cv2.waitKey(1) & 0xFF == 27:
+            break
+
+cap.release()
+cv2.destroyAllWindows()
+        </code></pre>
+        <p>This is a little bit different than the other ones so I guess that I will go over it. You are able to see at the top of the script that there are a few things that are controlling the information about the minimum tracking accuracy. A tesnor like in a neural network outputs a value between 1 and 0. This is known as the level of activiation. This is how sure that the neuron is that something is correct based on the training data, for example 0.29 activation is it being 29% sure that something is happening from what is was trained on. You are able to adjust how sure that the neurons/tensors have to be for it to show the output. This makes it so that there is less of a change for random tracking to come out of a funny looking shadow or for you to loose tracking if you are using a low quality camera or in a bad lighting condition. You can see that is has to apply all of the layers from the different tracking data inputs but that is just the same as all of the other ones, just having to use multiple.</p>
+        <h3>Selfie Segmentation</h3>
+        <p>The selfie segmentation model is able to track your face really acurately to be able to find out where a camera needs to focus for a selfie. This is what your phone is doing when it puts those boxes around your face, it is putting boxes around each of the extreme ends of the splatter generated from a segmentation model. You are able to select one of the boxes to tell it a focus target. This model is just generally able to pick out what is/isn't your face in an image. Another example is the zoom blur background, it uses a segmentation moel to find your face and blurs everything else as that would be background.</p>
+        <p>Here is an example of how to use it.</p>
+        <pre><code class="language-python">
+import cv2
+import mediapipe as mp
+import numpy as np
+
+mp_selfie_segmentation = mp.solutions.selfie_segmentation
+
+cap = cv2.VideoCapture(0)
+
+background_color = (0, 255, 0)
+
+with mp_selfie_segmentation.SelfieSegmentation(model_selection=1) as selfie_segmentation:
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        results = selfie_segmentation.process(frame_rgb)
+
+        if results.segmentation_mask is not None:
+            mask = (results.segmentation_mask > 0.5).astype(np.uint8)
+            background = np.zeros_like(frame, dtype=np.uint8)
+            background[:] = background_color
+            frame = cv2.addWeighted(frame, 1, background, 1, 0, dst=background, mask=mask ^ 1)
+
+        cv2.imshow('Selfie Segmentation', frame)
+
+        if cv2.waitKey(1) & 0xFF == 27:
+            break
+
+cap.release()
+cv2.destroyAllWindows()
+        </code></pre>
+        <p>This one is a little bit different than all of the others. You can assume the rest is the same except for this section of it:</p>
+        <pre><code class="language-python">
+        if results.segmentation_mask is not None:
+            mask = (results.segmentation_mask > 0.5).astype(np.uint8)
+            background = np.zeros_like(frame, dtype=np.uint8)
+            background[:] = background_color
+            frame = cv2.addWeighted(frame, 1, background, 1, 0, dst=background, mask=mask ^ 1)
+        </code></pre>
+        <p>The if statement just checks if there is data present,</p>
+        <p>You are able to see that it defines a variable named "mask" to be all of the points in the segmentation that are above 0.5. This is the same deal with the explenation of tensors that I gave above. It is looking for pixels in the predication that are atleast 50% assumed to be part of a face. This allows it to put a colored pixel over the point that it thinks is part of a face in the image.</p>
+        <p>The element is the background being set to 0's is it creating a black background with all of the color values being zero. This is a blank canvas for us to be able to paint our image on later with the data.</p>
+        <p>The background image is then modified to be set to green with is the defined background color in the top of the script where it says <code>background_color = (0, 255, 0)</code> which is the RGB value for green.</p>
+        <p>The final line there where they add the weighted from where mask=mask ^ 1 is it adding the image from the camera input where the segmentation model has decided that this is background. This means that the part that it thinks is your face will not be shown in the output and it will only show the background, leaving things that if found to be your face the color of the background. This means that my face will be a green blob segmented with the model.</p>
+        <p>Well, thats about if for Python MediaPipe. It is really fun, I hope you think up something fun to do with it.</p>
+        <hr>
+        <p>If there are any edits that you would like to request to be added to this, please submit them in an issue in <a href="https://github.com/yetanothernothacking/aswhackclub">the GitHub</a> or you can send an email to <a href="mailto:sysadmin@silverflag.net">sysadmin@silverflag.net</a></p>
+    </div>
+</body>
+</html>
