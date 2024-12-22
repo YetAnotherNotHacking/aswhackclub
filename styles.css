@@ -5,18 +5,22 @@ body, html {
     font-family: 'Arial', sans-serif;
     height: 100%;
 }
+
 a:link {
     color: white;
 }
+
 a:visited {
     color: lightgray;
 }
+
 #webgl-container {
     position: fixed;
     width: 100%;
     height: 100%;
     z-index: -1;
 }
+
 code {
     display: inline-block;
     background-color: #000000;
@@ -26,6 +30,7 @@ code {
     font-family: "Courier New", Courier, monospace;
     font-size: 0.9em;
 }
+
 .content-window {
     position: absolute;
     top: 50%;
@@ -46,6 +51,7 @@ code {
     z-index: 10;
     border: 2px solid rgba(255,255,255,0.1);
 }
+
 .content-window::after {
     content: '';
     position: absolute;
@@ -62,32 +68,39 @@ code {
     border-radius: 50px;
     pointer-events: none;
 }
+
 .content-window h1 {
     text-align: center;
     margin-bottom: 20px;
     text-shadow: 0 0 20px rgba(255,255,255,0.7);
 }
+
 .content-window img {
     display: block;
     width: 66.67%;
     margin: 20px auto;
     height: auto;
 }
+
 .content-window h2 {
     text-align: center;
 }
+
 table {
     border-collapse: collapse;
     width: 100%;
 }
+
 th, td {
     border: 1px solid #ddd;
     padding: 6px;
 }
+
 th {
     background-color: #6000af;
     text-align: left;
 }
+
 .category {
     position: relative;
     padding-left: 20px;
@@ -103,9 +116,11 @@ th {
     width: 4px;
     border-radius: 2px;
 }
+
 .beginner::before {
     background-color: #8cff90;
 }
+
 .intermediate::before {
     background-color: #ffe96c;
 }
@@ -113,9 +128,11 @@ th {
 .advanced::before {
     background-color: #ff6f6f;
 }
+
 .ml::before {
     background-color: #8c12ff;
 }
+
 .portal-button {
     display: inline-block;
     padding: 12px 25px;
@@ -438,7 +455,6 @@ background: rgba(255, 255, 255, 0.1);
     transform: translateY(0);
 }
 
-/* Add arrow to tooltip */
 .hover-info .tooltip::after {
     content: '';
     position: absolute;
@@ -450,7 +466,6 @@ background: rgba(255, 255, 255, 0.1);
     border-color: #ddd transparent transparent transparent;
 }
 
-/* Add syntax highlighting styles */
 pre[class*="language-"] {
     border-radius: 6px;
     margin: 1.5em 0;
@@ -462,7 +477,6 @@ code[class*="language-"] {
     line-height: 1.5;
 }
 
-/* Optional: Add a subtle background to inline code */
 :not(pre) > code {
     background: #2d2d2d;
     color: #ccc;
