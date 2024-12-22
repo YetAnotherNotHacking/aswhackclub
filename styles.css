@@ -449,3 +449,24 @@ background: rgba(255, 255, 255, 0.1);
     border-style: solid;
     border-color: #ddd transparent transparent transparent;
 }
+
+/* Add syntax highlighting styles */
+pre[class*="language-"] {
+    border-radius: 6px;
+    margin: 1.5em 0;
+}
+
+code[class*="language-"] {
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Optional: Add a subtle background to inline code */
+:not(pre) > code {
+    background: #2d2d2d;
+    color: #ccc;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: 'Fira Code', monospace;
+}
