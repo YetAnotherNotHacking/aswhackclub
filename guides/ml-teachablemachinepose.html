@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>How to: Poses on Teachable Machine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="../scripts/background.js" defer></script>
+    <script src="../scripts/searchfunc.js" defer></script>
+    <script src="../scripts/dropdown.js" defer></script>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="nav-link">Home</a>
+        <div class="dropdown">
+            <a href="index.html" class="nav-link">Guides</a>
+            <div class="dropdown-content">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search guides...">
+                </div>
+                <div class="guide-list">
+                    <!-- Guides will be populated here -->
+                </div>
+            </div>
+        </div>
+        <a href="https://toolbox.hackclub.com" class="nav-link">Toolbox</a>
+        <a href="https://ahoy.hack.club/?ref=U079XM9PARJ" class="nav-link">Highseas</a>
+    </nav>
+    <div id="webgl-container"></div>
+    <div class="content-window">
+        <h1>Machine Learning / Data Science:<br>The Google Teachable Machine | ASW Hack Club</h1>
+        <hr>
+        <h2>Introduction:</h2>
+        <p>There is a really cool website that allows you to make a really really simple machine learning program. It's called <a href="https://teachablemachine.withgoogle.com/">Teachable Machine</a>. It's really easy to use, and it's a great way to get started with machine learning.</p>
+        <p>We are going to be going over the basics of how to use Teachable Machine, and how to make a really simple object recognition program.</p>
+        <hr>
+        <h2>How to use Teachable Machine:</h2>
+        <h3>Step 1: Go to the Teachable Machine website</h3>
+        <p>Go to <a href="https://teachablemachine.withgoogle.com/">Teachable Machine</a> and click on the "Get Started" button.</p>
+        <p>Select "Pose Project"</p>
+        <h3>Step 2: Choose what you want to do</h3>
+        <p>The pose model is able to automatically detect the pose you are in from "landmarks" (points on your body) and learn to classify where those points are as different poses that you are in. In the example I am doing I am making one for looking left and for looking right. You are able to do way more by using it creatively.</p>
+        <h3>Step 3: Upload/Record your pose</h3>
+        <p>You are going to see two classes in the window. Name the first one the name of the first pose that you want to identify, and then name the second one the name of the second pose you intend to identify.</p>
+        <p>You are going to make yourself visible in your webcam then you are going to hold the "Hold to Record" button. Do this for atleast a few hundred sample frames. You can do more if you want.</p>
+        <div style="display: flex; justify-content: space-between; margin: 20px 0;">
+            <img src="images/ml-firstmlprogrampose/left.png" alt="Left Pose Recognition" style="width: 45%;">
+            <img src="images/ml-firstmlprogrampose/right.png" alt="Right Pose Recognition" style="width: 45%;">
+        </div>
+        <p>The image above is censored for privacy reasons, as this is a public website.</p>
+        <h3>Step 4: Train your model</h3>
+        <p>Click the "Train" button, and then wait for it to finish. This is going to take a while, so be patient. The page may stop responding, this can be disregarded.</p>
+        <p>On the school provided M1 MacBook, it took me about 15 minutes to train the model. Do something else while it is training. It helps if you are plugged into a power source, and turning low poer mode off and making sure that you do not have too much running in the background.</p>
+        <h3>Step 5: Test your model</h3>
+        <p>Once it is trainined, you will be able to use the 'Preview" section to be able to see your model working. You should be able to see a bargraph about the prediction of what is currently happning.</p>
+        <p>Here is an example if it knowing when I was looking left and right.:</p>
+        <div style="display: flex; justify-content: space-between; margin: 20px 0;">
+            <img src="images/ml-firstmlprogrampose/left_recognition.png" alt="Left Pose Recognition" style="width: 45%;">
+            <img src="images/ml-firstmlprogrampose/right_recognition.png" alt="Right Pose Recognition" style="width: 45%;">
+        </div style>
+        <p>Congrats! You've made your first (probably) machine learning program! This is the first of many, this is only a pose recognitation app. There are many other interesting things that you are able to do with machine learning. It gets better the more you are able to get to work together.I hope this peaks your interests.</p>
+        <hr>
+        <p>If there are any edits that you would like to request to be added to this, please submit them in an issue in <a href="https://github.com/yetanothernothacking/aswhackclub">the GitHub</a> or you can send an email to <a href="mailto:sysadmin@silverflag.net">sysadmin@silverflag.net</a></p>
+    </div>
+</body>
+</html>
