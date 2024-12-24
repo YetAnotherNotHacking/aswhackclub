@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>How to: Neural Networks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="../scripts/background.js" defer></script>
+    <script src="../scripts/searchfunc.js" defer></script>
+    <script src="../scripts/dropdown.js" defer></script>
+    <script src="../scripts/neuralnetworkdemo.js" defer></script>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="nav-link">Home</a>
+        <div class="dropdown">
+            <a href="index.html" class="nav-link">Guides</a>
+            <div class="dropdown-content">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search guides...">
+                </div>
+                <div class="guide-list">
+                    <!-- Guides will be populated here -->
+                </div>
+            </div>
+        </div>
+        <a href="https://toolbox.hackclub.com" class="nav-link">Toolbox</a>
+        <a href="https://ahoy.hack.club/?ref=U079XM9PARJ" class="nav-link">Highseas</a>
+    </nav>
+    <div id="webgl-container"></div>
+    <div class="content-window">
+        <h1>Machine Learning / Data Science:<br>Neural Networks | ASW Hack Club</h1>
+        <hr>
+        <h2>Introduction:</h2>
+        <p>Neural networks are the key to modern machine learning and "artificial intelligence". I put artificial intelligence in quotes because it is a word thrown around without much meaning. Most things reffered to as artificial intelligence are just machine learning and marketing. Real artificial intelligence is reffered to as artifical general intelligence or AGI. We are not here yet and it is not right to call machine learning AI. Sorry for the rant just needed to put that out there.</p>
+        <p>Neural networks are mathematical recreations of how neurons behave in the human brain. In this page I will go over the details about how they do that, history about how they were discovered and some information about the mathematics that goes into making a neural network.</p>
+        <!--          History          -->
+        <h3>History:</h3>
+        <p>The history of neural networks is a rather long one, but it is really interesting and it is able to help you get a better grasp of them. You don't have to read this if you do not want to, just scroll past it.</p>
+        <p>The earlist forms of neural networks developed by Warren McCulloch and Walter Pitts around 1943 where simple mathematical functions that were recognizing neurons and the connections that they had between them and how they react to eachother.</p>
+        <p>After the work of the two men, Frank Rosenblatt begain working on and ended up inventing the Perceptron around 1957. Frank Rosenblatt was a psychologist so he had a great understanding of the processes that occur in the brain and this allowed him to create the Perceptron which was able to simulate the visual process in humans and was able to recognize basics geomatrical shapes.</p>
+        <p>In 1969 Marvin Minsky and Seymour Papert published a book called "Perceptrons" giong over the limitations in the Perceptron. This caused many people to lose their interest in AI as it showed that the current tech was not able to get around the XOR problem. The XOR problem is when a network is not able to predict non-linear relations like in the XOR table. Look at the truth table for the XOR operation <a href="https://en.wikipedia.org/wiki/XOR_gate">here</a> (look at the iamge) This is essentialy that the neural networks is not able to think in multiple steps to discover relationships that are not super connected. The main issue that since you cannot draw a straight line between the values in the XOR truth table, the Perceptron is not able to predict the values accurately.</p>
+        <p>There was nothing really interesting that happened after the discovery of the XOR problem until 1986 when David Rumelhart, Geoffrey Hinton, and Ronald Williams were able to demonstrate that you are able to get around the XOR problem by using multiple layers known as <em>hidden layers</em> in combinantion with backpropogation to be able to get around the issue where neural networks were only able to solve linear problems. This solved many of the early limitations of neural networks.</p>
+        <p>In 1989 Yann LeCun and a few others developed the convolutional neural network a.k.a. CNN that is particulary good at image recognition tasks.</p>
+        <p>Now going into the 2000's, in 2006 Geoffrey Hinton started to popularlize the term "deep learning" and showed the usefulness of deep belief networks a.k.a. DBNs and their performance in unsupervised learning. This caused more people to become even more interested in multilayered networks. About 3 years later in 2009 they developed the ideas of unsupervised pretraining and contrastive divergence which allowed networks to be more effectively trained on their datasets.</p>
+        <p>This is when there was a huge boom in the development of AI around 2012, where AlexNet, a deep convolutional neural network was able to win the ImageNet competition by a huge amount. This showed the power of deep learning for image classification and vision tasks.</p>
+        <p>In 2014 the technology known as generative adversarial networks or GANs were created by Ian Goodfellow which made a huge expansion in the generative model landscape.</p>
+        <p>In 2015 the AlphaGo model created by Google DeepMind was a reinforcement model that showed machine learning models being able to demonstrate a machine learning model performing complex decision making tasks.</p>
+        <p>Between 2018 and now a large number of huge neural network technologies like GPT from OpenAI, BERT from Google, and TtTTT or T5 from Google used the transformer architecture for machine learning and were all wildy impressive demonstrations of the real capabilities of the machine learning models that they were deloping.</p>
+        <p>That all of the important history, for now ...</p>
+        <!--          Types of Neural Networks          -->
+        <h3>Types of Neural Networks:</h3>
+        <p>There are several different types of neural networks, some of them are better at certain tasks like image classification, identification, generation, or other application of machine learning. Here is a table with information about how the model works along with some key information about how they are usually used. They are in no particular order.</p>
+        <table>
+            <thead>
+              <tr>
+                <th>Neural Network Type</th>
+                <th>Function</th>
+                <th>Key Information</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Feedforward_neural_network">Feedforward Neural Network (FNN)</a></td>
+                <td>Basic neural network where data flows from input to output without loops.</td>
+                <td>Often used for classification and regression tasks. Each layer has direct connections to the next layer.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Convolutional_neural_network">Convolutional Neural Network (CNN)</a></td>
+                <td>Good for data stored in arrays, meaning things like images, using convolutional layers.</td>
+                <td>Commonly used in image and video recognition. They key features are convolutional, pooling, and fully connected layers.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Recurrent_neural_network">Recurrent Neural Network (RNN)</a></td>
+                <td>Designed for sequential data, with loops that allow information to persist (short term memory).</td>
+                <td>Useful for speech recognition, and natural language processing. Has issues with the vanishing gradient problem.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Long_short-term_memory">Long Short-Term Memory (LSTM)</a></td>
+                <td>A type of RNN designed to fix the vanishing gradient problem.</td>
+                <td>Key for tasks where long-term memory matters, such as text generation and machine language to language translation.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Gated_recurrent_unit">Gated Recurrent Unit (GRU)</a></td>
+                <td>A variant of RNN similar to LSTM but with a simpler structure and fewer parameters.</td>
+                <td>Efficient for sequence prediction and some basic natural language processing.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Autoencoder">Autoencoder</a></td>
+                <td>Learns a compressed, lower-dimensional representation of data, often for unsupervised learning.</td>
+                <td>Used for reducing dimensionality, detecting anomalies in data, and generating new data</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Generative_adversarial_network">Generative Adversarial Network (GAN)</a></td>
+                <td>Has two networks, a generator and a discriminator that are trained to create and evaluate realistic data.</td>
+                <td>Used for generating new synthetic data like images videos and music.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Radial_basis_function_network">Radial Basis Function Network (RBFN)</a></td>
+                <td>A radial basis function network uses radial functions to determine the influence of center points on the output based on input data distances.</td>
+                <td>Used in classification and regression tasks. The model uses the distance between the data points.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Multilayer_perceptron">Multilayer Perceptron (MLP)</a></td>
+                <td>A fully connected feedforward network with >=1 hidden layer(s) between the input and output layer.</td>
+                <td>Commonly used for classification, regression, and pattern recognition tasks.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Transformer_(deep_learning_architecture)">Transformer Network</a></td>
+                <td>Turns text into tokens, used for tokenized generative tasks like text generation.</td>
+                <td>Primarily used in natural language processing and machine translation.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Self-organizing_map">Self-Organizing Map (SOM)</a></td>
+                <td>An unsupervised learning algorithm that maps many dimensional data into less dimensions.</td>
+                <td>Used for clustering, dimensionality reduction, and visualizing complex data.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Capsule_neural_network">Capsule Network (CapsNet)</a></td>
+                <td>Utilizes capsules (groups of neurons) to encode spatial hierarchies in the data.</td>
+                <td>Effective for image classification or object recognition which improves generalization.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Deep_belief_network">Deep Belief Network (DBN)</a></td>
+                <td>Composed of multiple layers of stochastic, generative models.</td>
+                <td>Used for pretraining deep networks and dimension reduction. Used in unsupervised learning related tasks.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Echo_state_network">Echo State Network (ESN)</a></td>
+                <td>A type of RNN with fixed, random weights in the recurrent layer.</td>
+                <td>Used in tasks that require dynamic memory, like forecasting and pattern recognition.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Neural_Turing_machine">Neural Turing Machine (NTM)</a></td>
+                <td>Combines neural networks with external memory to simulate a Turing machine.</td>
+                <td>Used for tasks requiring external memory, such as algorithmic tasks and reasoning.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Attention_(machine_learning)">Attention Mechanism</a></td>
+                <td>Used to focus on important parts of the input data in sequence models, especially in transformers.</td>
+                <td>Helps models find the data that they need to pay attention to in their input.</td>
+              </tr>
+              <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Siamese_neural_network">Siamese Network</a></td>
+                <td>Consists of two identical networks sharing weights, used for comparing two inputs.</td>
+                <td>Used in tasks like face verification, signature verification, and similarity matching.</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3>Structure of a Neural Network</h3>
+          <p>A network consists of input, hidden, and output layers like such:</p>
+          <!--   Demo    -->
+          <div class="network-container">
+            <svg class="connections"></svg>
+            <!-- Input Layer -->
+            <div class="layer">
+              <div class="layer-label">Input Layer</div>
+              <div class="node" data-layer="0" data-index="0">x₁</div>
+              <div class="node" data-layer="0" data-index="1">x₂</div>
+              <div class="node" data-layer="0" data-index="2">x₃</div>
+            </div>
+            
+            <!-- Hidden Layer 1 -->
+            <div class="layer">
+              <div class="layer-label">Hidden Layer 1</div>
+              <div class="node" data-layer="1" data-index="0">h₁</div>
+              <div class="node" data-layer="1" data-index="1">h₂</div>
+              <div class="node" data-layer="1" data-index="2">h₃</div>
+              <div class="node" data-layer="1" data-index="3">h₄</div>
+            </div>
+            
+            <!-- Hidden Layer 2 -->
+            <div class="layer">
+              <div class="layer-label">Hidden Layer 2</div>
+              <div class="node" data-layer="2" data-index="0">h₅</div>
+              <div class="node" data-layer="2" data-index="1">h₆</div>
+              <div class="node" data-layer="2" data-index="2">h₇</div>
+            </div>
+            
+            <!-- Output Layer -->
+            <div class="layer">
+              <div class="layer-label">Output Layer</div>
+              <div class="node" data-layer="3" data-index="0">y₁</div>
+              <div class="node" data-layer="3" data-index="1">y₂</div>
+            </div>
+          </div>
+          <p>Binary values of <em>exactly</em> 1 or 0 are inputting into the input layers, hidden layers respond based on weights and biases defined at training, and tensor values <em>between</em> 1 and 0 are outputted on the output layer.</p>
+          <p>Weights define the amount that the neuron should be listened to by the connected neurons, and the bias pulls the weight further towards a 1 or a 0 based on the sum of the weights,</p>
+          <p>The neural network in the example has each layer connected in a configuration called a dense connection, where every neuron in the previous layer of the neural network has a connection to every neuron in the next layer. There are many different types, here is a table going over most of them:</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Connection Schema</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Fully Connected (Dense)</td>
+                <td>Every neuron in one layer connects to every neuron in the next.</td>
+              </tr>
+              <tr>
+                <td>Convolutional</td>
+                <td>Neurons connect to local regions of the input or prior layer.</td>
+              </tr>
+              <tr>
+                <td>Recurrent</td>
+                <td>Neurons connect in loops to retain temporal memory.</td>
+              </tr>
+              <tr>
+                <td>LSTM/GRU</td>
+                <td>Recurrent connections with gates for long-term dependencies.</td>
+              </tr>
+              <tr>
+                <td>Skip Connections</td>
+                <td>Bypasses layers to connect distant ones directly.</td>
+              </tr>
+              <tr>
+                <td>Dropout</td>
+                <td>Randomly drops connections during training.</td>
+              </tr>
+              <tr>
+                <td>Sparse Connections</td>
+                <td>Neurons connect to only a subset of the next layer.</td>
+              </tr>
+              <tr>
+                <td>Attention</td>
+                <td>Connections based on learned attention weights.</td>
+              </tr>
+              <tr>
+                <td>Self-Attention</td>
+                <td>Connections within the same layer based on attention weights.</td>
+              </tr>
+              <tr>
+                <td>Residual</td>
+                <td>Adds output of a layer to the input of subsequent layers.</td>
+              </tr>
+              <tr>
+                <td>Gated Connections</td>
+                <td>Connections modulated by learned gates.</td>
+              </tr>
+              <tr>
+                <td>Weight Sharing</td>
+                <td>Same weights used across multiple connections.</td>
+              </tr>
+              <tr>
+                <td>Normalization Layers</td>
+                <td>Neurons connect through normalization operations.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>The top four their being the dense, convolutional, recurrent, and LSTM are going to be the most important and mose used, they are the ones that you should pay the most attention to.</p>
+          <p></p>
+        <hr>
+        <p>If there are any edits that you would like to request to be added to this, please submit them in an issue in <a href="https://github.com/yetanothernothacking/aswhackclub">the GitHub</a> or you can send an email to <a href="mailto:sysadmin@silverflag.net">sysadmin@silverflag.net</a></p>
+    </div>
+</body>
+</html>
