@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Binary Calculator</title>
+ <style>
+        body { font-family: sans-serif; }
+        .flexmyboxesplease {
+            display: flex;
+        }
+       
+</style>
+<script>
+function calculateValue() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"][data-value]');
+    let total = 0;
+
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            total += parseInt(checkbox.getAttribute('data-value'));
+        }
+    });
+
+    document.getElementById('decimal-result').textContent = total;
+}
+
+document.addEventListener('DOMContentLoaded', calculateValue);
+</script>
+</head>
+<body>
+<h1>Binary Calculator</h1>
+    <div class="flexmyboxesplease">
+    <div class="bit-container">
+        <input type="checkbox" id="bit7" data-value="128" onchange="calculateValue()">
+        <label for="bit7">128</label>
+    </div>
+    <div class="bit-container">
+        <input type="checkbox" id="bit6" data-value="64" onchange="calculateValue()">
+        <label for="bit6">64</label>
+    </div>
+    <div class="bit-container">
+        <input type="checkbox" id="bit5" data-value="32" onchange="calculateValue()">
+        <label for="bit5">32</label>
+    </div>
+    <div class="bit-container">
+        <input type="checkbox" id="bit4" data-value="16" onchange="calculateValue()">
+        <label for="bit4">16</label>
+    </div>
+    <div class="bit-container">
+        <input type="checkbox" id="bit3" data-value="8" onchange="calculateValue()">
+        <label for="bit3">8</label>
+    </div>
+    <div class="bit-container">
+        <input type="checkbox" id="bit2" data-value="4" onchange="calculateValue()">
+        <label for="bit2">4</label>
+    </div>
+    <div class="bit-container">
+        <input type="checkbox" id="bit1" data-value="2" onchange="calculateValue()">
+        <label for="bit1">2</label>
+    </div>
+    <div class="bit-container">
+        <input type="checkbox" id="bit0" data-value="1" onchange="calculateValue()">
+        <label for="bit0">1</label>
+    </div>
+    </div>
+    <div id="result-box">
+        <p>Result: <span id="decimal-result">0</span></p>
+    </div>
+</body>
+</html>
