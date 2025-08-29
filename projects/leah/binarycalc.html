@@ -3,17 +3,28 @@
 <html>
 <head>
 <title>Binary Calculator</title>
- <style>
-        body { font-family: sans-serif; }
-        .flexmyboxesplease {
-            display: flex;
-        }
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<style>
+ body {
+  background-color: #1e1e2e;
+  color: #cdd6f4;
+  font-family: 'JetBrains Mono', monospace;
+}
+a:link, a:visited {
+  color: #89b4fa;
+}
+input[type="checkbox"] {
+  accent-color: #7287fd;
+}
+.flexmyboxesplease {
+  display: flex;
+}
        
 </style>
 <script>
 function calculateValue() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"][data-value]');
-    let total = 0;
+    var total = 0;
 
     checkboxes.forEach(checkbox => {
         if (checkbox.checked) {
