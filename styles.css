@@ -4,6 +4,8 @@ body, html {
     overflow: hidden;
     font-family: 'Arial', sans-serif;
     height: 100%;
+	display: flex; /* Establishes a flex container */
+	justify-content: center; /* Centers children horizontally */
 }
 a:link {
     color: white;
@@ -17,6 +19,23 @@ a:visited {
     height: 100%;
     z-index: -1;
 }
+.button {
+  background-color: #e74c3c;
+  color: white;
+  padding: 20px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+.button:hover {
+  background-color: #c0392b;
+}
+
 code {
     display: inline-block;
     background-color: #000000;
